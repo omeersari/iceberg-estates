@@ -4,10 +4,10 @@
                 ICEBERG ESTATES
             </div>
             <div class="menu">
-                <div>anasayfa</div>
-                <div>randevular</div>
-                <div>randevu oluştur</div>
-                <div>kullanıcı oluştur</div>
+                <router-link class="menu-link" to="/dashboard">anasayfa</router-link>
+                <router-link class="menu-link" to="/appointments">randevular</router-link>
+                <router-link class="menu-link" to="/createappointment">randevu oluştur</router-link>
+                <router-link class="menu-link" to="/users">kullanıcı oluştur</router-link>
             </div>
     </div>
 </template>
