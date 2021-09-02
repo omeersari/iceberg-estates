@@ -1,0 +1,43 @@
+#app {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+
+}
+
+.main {
+    padding: 60px;
+}
+
+.sidebar-menu {
+    height: 100vh;
+    background-color: black;
+    justify-self: stretch;
+
+    .logo {
+        text-align: center;
+        color: white;
+        padding-top: 15px;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        color: white;
+        padding: 15px;
+        div {
+            margin-top: 15px;
+            border: 1px solid white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        div:hover {
+            color: black;
+            background-color: white;
+        }
+    }
+}
+
+
+
+
+
