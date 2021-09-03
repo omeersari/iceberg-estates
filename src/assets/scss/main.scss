@@ -1,0 +1,63 @@
+.app-form {
+    width: 50%;
+}
+
+.application-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid gray;
+    width: 80%;
+    input {
+        margin-top: 10px;
+        border-radius: 1px;
+        padding: 3px;
+    }
+    button {
+        margin-top: 10px;
+        border-radius: 1px;
+        padding: 3px;
+    }
+    select {
+        margin-top: 10px;
+        border-radius: 1px;
+        padding: 3px;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    li {
+        border: 1px solid blue;
+        padding: 10px;
+    }
+}
+
+
+
+
+.table {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+.app-table {
+    width: 1578px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr 2fr 1fr;
+    background-color: black;
+    gap: 1px;
+
+    div {
+        background-color: white;
+        padding: 22px;
+        border-bottom: 1px solid black;
+    }
+}
+
+.headers {
+    font-weight: bold;
+}
