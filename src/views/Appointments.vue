@@ -52,14 +52,7 @@
       </div>
       <div><button>EDIT</button></div>
     </div>
-    <paginate
-      :page-count="3"
-      :click-handler="viewMore"
-      :prev-text="'Prev'"
-      :next-text="'Next'"
-      :container-class="'pagination'"
-    >
-    </paginate>
+    <button @click="viewMore">view-more</button>
   </div>
 </template>
 
@@ -76,6 +69,7 @@ export default {
       asc: false,
       moment,
       pageOfItems: [],
+      offset: "",
     };
   },
   async created() {
@@ -86,15 +80,12 @@ export default {
     records() {
       return this.res.records;
     },
-    offset() {
-      return this.res.offset;
-    },
   },
   methods: {
     async viewMore() {
-      const res = await this.api.viewMore(10, this.offset);
-      this.pageOfItems = this.res.records
-      console.log(res);
+      const len = this.pageOfItems.length
+      const res = await this.api.viewMore(len+10);
+      this.pageOfItems = res.records
     },
   },
 };

@@ -21,8 +21,8 @@ export default {
     getAppointments () {
         return this.execute('get', "Appointments?pageSize=10&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29")
     },
-    viewMore(len, offset) {
-        return this.execute('get', `Appointments?pageSize=${len}&offset=${offset}&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29`)
+    viewMore(len) {
+        return this.execute('get', `Appointments?pageSize=${len}&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29`)
     },
     createAppointments(data) {
         return this.execute('post', "Appointments", data)
