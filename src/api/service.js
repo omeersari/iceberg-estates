@@ -21,14 +21,20 @@ export default {
     getAppointments () {
         return this.execute('get', "Appointments?pageSize=10&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29")
     },
-    viewMore(len) {
-        return this.execute('get', `Appointments?pageSize=${len}&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29`)
+    viewMore(len, data) {
+        if (data.sortClicked) {
+            return this.execute('get', `Appointments?pageSize=${len}&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29&sort%5B0%5D%5Bfield%5D=appointment_date&sort%5B0%5D%5Bdirection%5D=${data.sorted}`)
+        }
+        else {
+            return this.execute('get', `Appointments?pageSize=${len}&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29`)
+        }
+        
     },
     createAppointments(data) {
         return this.execute('post', "Appointments", data)
     },
-    sortDates() {
-        return this.execute('post', "Appointments?sort%5B0%5D%5Bfield%5D=appointment_date&sort%5B0%5D%5Bdirection%5D=asc")
+    sortDates(par) {
+        return this.execute('get', `Appointments?pageSize=10&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29&sort%5B0%5D%5Bfield%5D=appointment_date&sort%5B0%5D%5Bdirection%5D=${par}`)
     }
 
 }
