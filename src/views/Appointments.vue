@@ -52,7 +52,7 @@
       </div>
       <div><button>EDIT</button></div>
     </div>
-    <button @click="viewMore">view-more</button>
+    <button @click="viewMore"> View More </button>
   </div>
 </template>
 
@@ -69,7 +69,6 @@ export default {
       asc: false,
       moment,
       pageOfItems: [],
-      offset: "",
     };
   },
   async created() {
@@ -82,10 +81,20 @@ export default {
     },
   },
   methods: {
-    async viewMore() {
+    async viewMore(event) {
+      const target = event.target || event.srcElement
+      if (target.getAttribute('disabled')) {return}
+      target.textContent = "Loading"
       const len = this.pageOfItems.length
       const res = await this.api.viewMore(len+10);
-      this.pageOfItems = res.records
+      if (res.records.length === this.pageOfItems.length) {
+        target.textContent = "End of Feed"
+        target.setAttribute('disabled', true)
+      }else {
+        this.pageOfItems = res.records
+        target.textContent = "View More"
+      }
+      
     },
   },
 };
