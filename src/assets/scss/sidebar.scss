@@ -1,11 +1,14 @@
 #app {
     display: grid;
     grid-template-columns: 1fr 7fr;
-
 }
 
 .main {
     padding: 50px;
+}
+
+.all-screen {
+    padding: 0px;
 }
 
 .sidebar-menu {

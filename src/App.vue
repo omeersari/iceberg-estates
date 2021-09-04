@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div>
+    <div v-if="this.$route.path != '/'">
       <side-bar />
     </div>
-    <div class="main">
+    <div class="main" :class="[this.$route.path == '/' ? 'all-screen' : '']">
       <router-view :key="$route.path" />
     </div>
   </div>
