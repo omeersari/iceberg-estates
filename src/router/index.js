@@ -13,19 +13,24 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: () => import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue")
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
   },
   {
     path: "/appointments",
     name: "Appointments",
     component: () =>
-      import(/* webpackChunkName: "appointments" */ "../views/Appointments.vue"),
+      import(
+        /* webpackChunkName: "appointments" */ "../views/Appointments.vue"
+      ),
   },
   {
     path: "/createappointment",
     name: "CreateAppointment",
     component: () =>
-      import(/* webpackChunkName: "createappointment" */ "../views/CreateAppointment.vue"),
+      import(
+        /* webpackChunkName: "createappointment" */ "../views/CreateAppointment.vue"
+      ),
   },
   {
     path: "/users",

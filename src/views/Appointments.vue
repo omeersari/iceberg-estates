@@ -9,7 +9,7 @@
       <div>Agent Name</div>
       <div>Actions</div>
     </div>
-    <div v-for="(item, index) in pageOfItems" :key="index" class="app-table">
+    <div v-for="(item, index) in Appointments" :key="index" class="app-table">
       <div>{{ item.id }}</div>
       <div>
         {{ moment(item["fields"].appointment_date).format("DD-MM-YYYY") }}
@@ -52,14 +52,14 @@
       </div>
       <div><button>EDIT</button></div>
     </div>
-    <button @click="viewMore" ref="viewmore">View More</button>
+    <button @click="viewmore" ref="viewmore">View More</button>
   </div>
 </template>
-
 
 <script>
 import api from "../api/service";
 import moment from "moment";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -68,58 +68,58 @@ export default {
       res: [],
       sort: true,
       moment,
-      pageOfItems: [],
-      sortClicked : false,
+      sortClicked: false,
       sorted: "",
+      oldLen: "",
     };
   },
   async created() {
-    this.res = await this.api.getAppointments();
-    this.pageOfItems = this.res.records;
-    this.sortClicked = false
+    this.getAppointments();
+    this.sortClicked = false;
   },
   computed: {
-    records() {
-      return this.res.records;
-    },
+    ...mapGetters(["Appointments", "Len"]),
   },
   methods: {
-    async viewMore(event) {
+    ...mapActions(["getAppointments", "viewMore", "sortbyDate"]),
+    async viewmore(event) {
+      this.oldLen = this.Len
       const target = event.target || event.srcElement;
       if (target.getAttribute("disabled")) {
         return;
       }
       target.textContent = "Loading";
-      const len = this.pageOfItems.length;
+      target.setAttribute("disabled", true)
       const data = {
-        sortClicked : this.sortClicked,
-        sorted: this.sorted
-      }
-      const res = await this.api.viewMore(len + 10, data);
-      if (res.records.length === this.pageOfItems.length) {
+        len: this.Len + 10,
+        sortClicked: this.sortClicked,
+        sorted: this.sorted,
+      };
+      await this.viewMore(data);
+      if (this.Len === this.oldLen) {
         target.textContent = "End of Feed";
         target.setAttribute("disabled", true);
       } else {
-        this.pageOfItems = res.records;
+        target.disabled = false
         target.textContent = "View More";
       }
     },
     async sortDates(par) {
-      this.sortClicked = true
+      this.sortClicked = true;
       this.$refs["viewmore"].innerText = "View More";
       this.$refs.viewmore.disabled = false;
       if (this.sort) {
-        par = "desc";
-        this.sorted = "desc";
-        this.sort = false;
+        this.sorted = par = "desc";
+        this.sort = !this.sort;
       } else {
-        par = "asc";
-        this.sorted = "asc";
-        this.sort = true;
+        this.sorted = par = "asc";
+        this.sort = !this.sort;
       }
-      const len = this.pageOfItems.length;
-      const res = await this.api.sortDates(par, len);
-      this.pageOfItems = res.records;
+      const data = {
+        len : this.Len,
+        par,
+      }
+      await this.sortbyDate(data);
     },
   },
 };
