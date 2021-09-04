@@ -46,4 +46,12 @@ export default {
       `Appointments?pageSize=${data.len}&filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29&sort%5B0%5D%5Bfield%5D=appointment_date&sort%5B0%5D%5Bdirection%5D=${data.par}`
     );
   },
+  filterAgents(data) {
+      console.log(data)
+      return this.execute(
+        'get',
+        `Appointments?filterByFormula%3D%7Bagent_name%7D%20%3D%20%27${data.name}%20${data.surname}&filterByFormula=NOT%28%7Bcontact_id%7D%20%3D%20%27%27%29`
+      )
+      
+  }
 };

@@ -6,7 +6,15 @@
       <div>Postal Code</div>
       <div>Contanct Phone</div>
       <div>Contact Name</div>
-      <div>Agent Name</div>
+      <div>
+        Agent Name
+        <form @submit.prevent="filterAgents">
+          <input type="text" placeholder="Filter" v-model="filter">
+          <button>search</button>
+        </form>
+        
+        
+      </div>
       <div>Actions</div>
     </div>
     <div v-for="(item, index) in Appointments" :key="index" class="app-table">
@@ -71,6 +79,7 @@ export default {
       sortClicked: false,
       sorted: "",
       oldLen: "",
+      filter: "",
     };
   },
   async created() {
@@ -121,6 +130,25 @@ export default {
       }
       await this.sortbyDate(data);
     },
+    async filterAgents() {
+      const allName = this.filter.split(" ");
+      let name = "";
+      let surname = "";
+      if (allName.length == 2) {
+        name = allName[0]
+        surname = allName[1]
+      }
+      else {
+        name = this.filter.split(' ').slice(0, -1).join(' ')
+        surname = this.filter.split(' ').slice(-1).join(' ')
+      }
+      const data = {
+        name,
+        surname
+      }
+      const res = await this.api.filterAgents(data)
+      console.log(res)
+    }
   },
 };
 </script>
