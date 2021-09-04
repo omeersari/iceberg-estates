@@ -117,7 +117,8 @@ export default {
         this.sorted = "asc";
         this.sort = true;
       }
-      const res = await this.api.sortDates(par);
+      const len = this.pageOfItems.length;
+      const res = await this.api.sortDates(par, len);
       this.pageOfItems = res.records;
     },
   },
