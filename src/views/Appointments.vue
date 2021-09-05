@@ -102,6 +102,7 @@ export default {
         offset : this.Offset,
         sortClicked: this.sortClicked,
         sorted: this.sorted,
+        len: this.Len,
       };
       await this.viewMore(data);
       if (this.Offset == "") {
@@ -126,9 +127,17 @@ export default {
       }
       const data = {
         len : this.Len,
+        offset: this.Offset,
         par,
       }
       await this.sortbyDate(data);
+      if (this.Offset == "") {
+        this.$refs["viewmore"].innerText = "End of Feed";
+        this.$refs.viewmore.disabled = true;
+      } else {
+        this.$refs["viewmore"].innerText = "View More";
+      this.$refs.viewmore.disabled = false;
+      }
     },
     async filterAgents() {
       const allName = this.filter.split(" ");
