@@ -8,18 +8,24 @@ export default new Vuex.Store({
   state: {
     appointments: [],
     len: "",
+    offset: "",
   },
   getters: {
     Appointments: (state) => state.appointments,
     Len: (state) => state.len,
+    Offset: (state) => state.offset,
   },
   mutations: {
     GET_APPOINTMENTS(state, payload) {
-      state.appointments = payload;
+      state.appointments = payload.records;
+      state.offset = payload.offset;
       state.len = payload.length;
     },
     VIEW_MORE(state, payload) {
-      state.appointments = payload;
+      state.appointments = [...state.appointments, ...payload.records];
+      if (payload.offset) {
+        state.offset = payload.offset
+      }else state.offset = ""
       state.len = payload.length;
     },
     SORT_BY_DATE(state, payload) {
@@ -30,11 +36,11 @@ export default new Vuex.Store({
   actions: {
     async getAppointments({ commit }) {
       const response = await api.getAppointments();
-      commit("GET_APPOINTMENTS", response.records);
+      commit("GET_APPOINTMENTS", response);
     },
     async viewMore({ commit }, data) {
       const response = await api.viewMore(data);
-      commit("VIEW_MORE", response.records);
+      commit("VIEW_MORE", response);
     },
     async sortbyDate({commit}, data) {
       const response = await api.sortDates(data)

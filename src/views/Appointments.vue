@@ -87,12 +87,11 @@ export default {
     this.sortClicked = false;
   },
   computed: {
-    ...mapGetters(["Appointments", "Len"]),
+    ...mapGetters(["Appointments", "Len", "Offset"]),
   },
   methods: {
     ...mapActions(["getAppointments", "viewMore", "sortbyDate"]),
     async viewmore(event) {
-      this.oldLen = this.Len
       const target = event.target || event.srcElement;
       if (target.getAttribute("disabled")) {
         return;
@@ -100,17 +99,18 @@ export default {
       target.textContent = "Loading";
       target.setAttribute("disabled", true)
       const data = {
-        len: this.Len + 10,
+        offset : this.Offset,
         sortClicked: this.sortClicked,
         sorted: this.sorted,
       };
       await this.viewMore(data);
-      if (this.Len === this.oldLen) {
+      if (this.Offset == "") {
         target.textContent = "End of Feed";
-        target.setAttribute("disabled", true);
+        target.setAttribute('disabled', true);
       } else {
         target.disabled = false
         target.textContent = "View More";
+        
       }
     },
     async sortDates(par) {
