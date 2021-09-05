@@ -1,47 +1,83 @@
 #app {
-    display: grid;
-    grid-template-columns: 1fr 7fr;
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+  height: 100vh;
+
+  @media (max-width: $mobileBreakpointMenu) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .main {
-    padding: 50px;
+  padding: 50px;
 }
 
 .all-screen {
-    padding: 0px;
+  padding: 0px;
 }
 
 .sidebar-menu {
-    height: 100vh;
-    background-color: black;
-    justify-self: stretch;
+  height: 100%;
+  background-color: black;
+  justify-self: stretch;
+  position: relative;
+  @media (max-width: $mobileBreakpointMenu) {
+    height: 50px;
+  }
 
-    .logo {
-        text-align: center;
-        color: white;
-        padding-top: 15px;
+  .logo {
+    text-align: center;
+    color: white;
+    padding-top: 15px;
+  }
+
+  .hamburger-menu {
+    display: none;
+    @media (max-width: $mobileBreakpointMenu) {
+      position: absolute;
+      display: inline-block;
+      left: 20px;
+      top: 7px;
+      div {
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        margin: 6px 0;
+      }
+    }
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    .menu-link {
+      margin-top: 15px;
+      border: 1px solid white;
+      padding: 5px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+    }
+    .menu-link:hover {
+      color: black;
+      background-color: white;
     }
 
-    .menu {
-        display: flex;
-        flex-direction: column;
-        padding: 15px;
-        .menu-link {
-            margin-top: 15px;
-            border: 1px solid white;
-            padding: 5px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: white;
-        }
-        .menu-link:hover {
-            color: black;
-            background-color: white;
-        }
+    @media (max-width: $mobileBreakpointMenu) {
+      display: none;
     }
+  }
+
+  .responsive-menu {
+      display: flex;
+      background-color: black;
+      justify-content: flex-start;
+      width: 25%;
+      height: 100vh;
+
+      @media (max-width: $mobileBreakpointOneB) {
+        width: 50%;
+      }
+  }
 }
-
-
-
-
-

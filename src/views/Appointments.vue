@@ -109,12 +109,13 @@ export default {
   async created() {
     this.getAppointments();
     this.sortClicked = false;
+    this.showMenu(false)
   },
   computed: {
     ...mapGetters(["Appointments", "Len", "Offset"]),
   },
   methods: {
-    ...mapActions(["getAppointments", "viewMore", "sortbyDate"]),
+    ...mapActions(["getAppointments", "viewMore", "sortbyDate", "showMenu"]),
     async viewmore(event) {
       const target = event.target || event.srcElement;
       if (target.getAttribute("disabled")) {

@@ -9,11 +9,13 @@ export default new Vuex.Store({
     appointments: [],
     len: "",
     offset: "",
+    showMenu: false,
   },
   getters: {
     Appointments: (state) => state.appointments,
     Len: (state) => state.len,
     Offset: (state) => state.offset,
+    ShowMenu: (state) => state.showMenu,
   },
   mutations: {
     GET_APPOINTMENTS(state, payload) {
@@ -24,16 +26,19 @@ export default new Vuex.Store({
     VIEW_MORE(state, payload) {
       state.appointments = [...state.appointments, ...payload.records];
       if (payload.offset) {
-        state.offset = payload.offset
-      }else state.offset = ""
+        state.offset = payload.offset;
+      } else state.offset = "";
       state.len = state.appointments.length;
     },
     SORT_BY_DATE(state, payload) {
       state.appointments = payload.records;
       if (payload.offset) {
-        state.offset = payload.offset
-      }else state.offset = ""
+        state.offset = payload.offset;
+      } else state.offset = "";
       state.len = state.appointments.length;
+    },
+    SHOW_MENU(state, bool) {
+      state.showMenu = bool
     }
   },
   actions: {
@@ -45,9 +50,13 @@ export default new Vuex.Store({
       const response = await api.viewMore(data);
       commit("VIEW_MORE", response);
     },
-    async sortbyDate({commit}, data) {
-      const response = await api.sortDates(data)
-      commit("SORT_BY_DATE", response)
+    async sortbyDate({ commit }, data) {
+      const response = await api.sortDates(data);
+      commit("SORT_BY_DATE", response);
+    },
+    showMenu({commit}, bool) {
+      console.log(bool)
+      commit("SHOW_MENU", bool)
     }
   },
   modules: {},
