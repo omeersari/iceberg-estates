@@ -55,7 +55,6 @@ export default new Vuex.Store({
       commit("SORT_BY_DATE", response);
     },
     showMenu({commit}, bool) {
-      console.log(bool)
       commit("SHOW_MENU", bool)
     }
   },

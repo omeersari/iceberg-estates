@@ -8,7 +8,7 @@
     <div class="table">
       <div class="app-table headers">
         <div>ID</div>
-        <div @click="sortDates()" class="sort">App. Date</div>
+        <div @click="sortDates()" class="sort">App. Date <i class="fas fa-sort"></i> </div>
         <div>Postal Code</div>
         <div>Phone</div>
         <div>Contact Name</div>
