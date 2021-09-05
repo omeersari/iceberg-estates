@@ -4,6 +4,7 @@
       <input type="text" placeholder="Filter by agent name" v-model="filter" />
       <button>Filter</button>
     </form>
+    <button @click="sortDates()" class="sort-by-date">Sort By Date</button>
     <div class="table">
       <div class="app-table headers">
         <div>ID</div>
