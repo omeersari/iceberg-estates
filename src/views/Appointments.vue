@@ -1,66 +1,89 @@
 <template>
-  <div class="table">
-    <div class="app-table headers">
-      <div>ID</div>
-      <div @click="sortDates()" class="sort">Appointment Date</div>
-      <div>Postal Code</div>
-      <div>Contanct Phone</div>
-      <div>Contact Name</div>
-      <div>
-        Agent Name
-        <form @submit.prevent="filterAgents">
-          <input type="text" placeholder="Filter" v-model="filter">
-          <button>search</button>
-        </form>
-        
-        
+  <div class="appointments">
+    <form @submit.prevent="filterAgents">
+      <input type="text" placeholder="Filter by agent name" v-model="filter" />
+      <button>Filter</button>
+    </form>
+    <div class="table">
+      <div class="app-table headers">
+        <div>ID</div>
+        <div @click="sortDates()" class="sort">App. Date</div>
+        <div>Postal Code</div>
+        <div>Phone</div>
+        <div>Contact Name</div>
+        <div>Agent Name</div>
+        <div>Actions</div>
       </div>
-      <div>Actions</div>
+      <div v-for="(item, index) in Appointments" :key="index" class="app-table">
+        <div class="item">
+          <div class="responsive-label">ID:</div>
+          <div>{{ index + 1 }}</div>
+        </div>
+        <div class="item">
+          <div class="responsive-label">App. Date</div>
+          <div>
+            {{ moment(item["fields"].appointment_date).format("DD-MM-YYYY") }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="responsive-label">Post Code:</div>
+          <div>
+            {{
+              item["fields"].appointment_postcode
+                ? item["fields"].appointment_postcode
+                : "no post-code"
+            }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="responsive-label">Phone:</div>
+          <div>
+            {{
+              item["fields"].contact_phone
+                ? item["fields"].contact_phone[0]
+                : "no phone"
+            }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="responsive-label">Contact Name:</div>
+          <div>
+            {{
+              item["fields"].contact_name
+                ? item["fields"].contact_name[0]
+                : "no-name"
+            }}
+            {{
+              item["fields"].contact_surname
+                ? item["fields"].contact_surname[0]
+                : "no-surname"
+            }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="responsive-label">Agent Name:</div>
+          <div>
+            {{
+              item["fields"].agent_name
+                ? item["fields"].agent_name[0]
+                : "no-name"
+            }}
+            {{
+              item["fields"].agent_surname
+                ? item["fields"].agent_surname[0]
+                : "no-surname"
+            }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="responsive-label">Action:</div>
+          <div><button class="edit">EDIT</button></div>
+        </div>
+      </div>
     </div>
-    <div v-for="(item, index) in Appointments" :key="index" class="app-table">
-      <div>{{ item.id }}</div>
-      <div>
-        {{ moment(item["fields"].appointment_date).format("DD-MM-YYYY") }}
-      </div>
-      <div>
-        {{
-          item["fields"].appointment_postcode
-            ? item["fields"].appointment_postcode
-            : "no post-code"
-        }}
-      </div>
-      <div>
-        {{
-          item["fields"].contact_phone
-            ? item["fields"].contact_phone[0]
-            : "no phone"
-        }}
-      </div>
-      <div>
-        {{
-          item["fields"].contact_name
-            ? item["fields"].contact_name[0]
-            : "no-name"
-        }}
-        {{
-          item["fields"].contact_surname
-            ? item["fields"].contact_surname[0]
-            : "no-surname"
-        }}
-      </div>
-      <div>
-        {{
-          item["fields"].agent_name ? item["fields"].agent_name[0] : "no-name"
-        }}
-        {{
-          item["fields"].agent_surname
-            ? item["fields"].agent_surname[0]
-            : "no-surname"
-        }}
-      </div>
-      <div><button>EDIT</button></div>
-    </div>
-    <button @click="viewmore" ref="viewmore">View More</button>
+    <button class="view-more" @click="viewmore" ref="viewmore">
+      View More
+    </button>
   </div>
 </template>
 
@@ -97,9 +120,9 @@ export default {
         return;
       }
       target.textContent = "Loading";
-      target.setAttribute("disabled", true)
+      target.setAttribute("disabled", true);
       const data = {
-        offset : this.Offset,
+        offset: this.Offset,
         sortClicked: this.sortClicked,
         sorted: this.sorted,
         len: this.Len,
@@ -107,11 +130,10 @@ export default {
       await this.viewMore(data);
       if (this.Offset == "") {
         target.textContent = "End of Feed";
-        target.setAttribute('disabled', true);
+        target.setAttribute("disabled", true);
       } else {
-        target.disabled = false
+        target.disabled = false;
         target.textContent = "View More";
-        
       }
     },
     async sortDates(par) {
@@ -126,17 +148,17 @@ export default {
         this.sort = !this.sort;
       }
       const data = {
-        len : this.Len,
+        len: this.Len,
         offset: this.Offset,
         par,
-      }
+      };
       await this.sortbyDate(data);
       if (this.Offset == "") {
         this.$refs["viewmore"].innerText = "End of Feed";
         this.$refs.viewmore.disabled = true;
       } else {
         this.$refs["viewmore"].innerText = "View More";
-      this.$refs.viewmore.disabled = false;
+        this.$refs.viewmore.disabled = false;
       }
     },
     async filterAgents() {
@@ -144,20 +166,19 @@ export default {
       let name = "";
       let surname = "";
       if (allName.length == 2) {
-        name = allName[0]
-        surname = allName[1]
-      }
-      else {
-        name = this.filter.split(' ').slice(0, -1).join(' ')
-        surname = this.filter.split(' ').slice(-1).join(' ')
+        name = allName[0];
+        surname = allName[1];
+      } else {
+        name = this.filter.split(" ").slice(0, -1).join(" ");
+        surname = this.filter.split(" ").slice(-1).join(" ");
       }
       const data = {
-        name,
-        surname
-      }
-      const res = await this.api.filterAgents(data)
-      console.log(res)
-    }
+        name: [name],
+        surname: [surname],
+      };
+      const res = await this.api.filterAgents(data);
+      console.log(res);
+    },
   },
 };
 </script>
