@@ -1,7 +1,8 @@
 <template>
   <div class="app-form">
-    <h2>Create An Application</h2>
-    <form class="application-form" action="">
+    <div class="form">
+      <h2>Create application</h2>
+      <form class="application-form" action="">
       <def-input :type="'text'" :placeholder="'Post Code'" />
       <div class="user-input">
         <label for="">Date</label>
@@ -31,8 +32,11 @@
       <div class="user-input">
         <button>CREATE</button>
       </div>
-      
     </form>
+    </div>
+    <div class="map">
+      <GoogleMap />
+    </div>
   </div>
 </template>
 
@@ -41,9 +45,11 @@ import DefInput from '../components/DefInput.vue'
 import api from "../api/service";
 import { mapActions, mapGetters } from 'vuex';
 import moment from "moment";
+import GoogleMap from '../components/GoogleMap.vue'
 export default {
   components: {
-    DefInput
+    DefInput,
+    GoogleMap
   },
   data() {
     return {
@@ -55,7 +61,6 @@ export default {
   created () {
     this.$store.dispatch('showMenu', false)
     this.getAgents()
-    console.log(this.date)
   },
   methods: {
     ...mapActions(['getAgents'])
