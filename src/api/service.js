@@ -53,4 +53,10 @@ export default {
       `Appointments?filterByFormula%3D%7Bagent_name%7D%20%3D%20%27${data.name}%20${data.surname}&filterByFormula=NOT%28%7Bcontact_id%7D%20%3D%20%27%27%29`
     );
   },
+  getAgents() {
+    return this.execute(
+      "get",
+      'Agents?filterByFromula=NOT%28%7Bagent_id%7D%20%3D%20%27%27%29'
+    )
+  }
 };

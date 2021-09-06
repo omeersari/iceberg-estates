@@ -10,12 +10,14 @@ export default new Vuex.Store({
     len: "",
     offset: "",
     showMenu: false,
+    agents: []
   },
   getters: {
     Appointments: (state) => state.appointments,
     Len: (state) => state.len,
     Offset: (state) => state.offset,
     ShowMenu: (state) => state.showMenu,
+    Agents: (state) => state.agents,
   },
   mutations: {
     GET_APPOINTMENTS(state, payload) {
@@ -39,6 +41,9 @@ export default new Vuex.Store({
     },
     SHOW_MENU(state, bool) {
       state.showMenu = bool
+    },
+    GET_AGENTS(state, payload) {
+      state.agents = payload.records
     }
   },
   actions: {
@@ -56,6 +61,10 @@ export default new Vuex.Store({
     },
     showMenu({commit}, bool) {
       commit("SHOW_MENU", bool)
+    },
+    async getAgents({commit}) {
+      const response = await api.getAgents();
+      commit("GET_AGENTS", response)
     }
   },
   modules: {},
