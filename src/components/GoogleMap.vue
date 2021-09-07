@@ -54,6 +54,7 @@ export default {
             lng: event.latLng.lng()
         }
         this.newMarker = marker
+        this.$emit('markerSelected', true)
         this.calculateDistance()
     },
     async calculateDistance() {

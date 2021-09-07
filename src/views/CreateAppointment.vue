@@ -35,8 +35,8 @@
     </form>
     </div>
     <div class="map">
-      <GoogleMap @getDuration="getDuration" :travelMode="travelMode" />
-      <select v-model="travelMode">
+      <GoogleMap @getDuration="getDuration" :travelMode="travelMode" @markerSelected="showTravelMode = true" />
+      <select v-if="showTravelMode" v-model="travelMode">
         <option value="DRIVING">DRIVING</option>
         <option value="TRANSIT">TRANSIT</option>
         <option value="BICYCLING">BICYCLING</option>
@@ -69,6 +69,7 @@ export default {
       api,
       dist: "",
       dur: "",
+      showTravelMode: false,
       travelMode: "DRIVING"
     };
   },
@@ -81,7 +82,7 @@ export default {
     getDuration(dist, dur) {
       this.dist = dist;
       this.dur = dur;
-    }
+    },
   },
   computed: {
     ...mapGetters(['Agents'])
