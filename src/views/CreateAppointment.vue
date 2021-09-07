@@ -35,7 +35,17 @@
     </form>
     </div>
     <div class="map">
-      <GoogleMap />
+      <GoogleMap @getDuration="getDuration" :travelMode="travelMode" />
+      <select v-model="travelMode">
+        <option value="DRIVING">DRIVING</option>
+        <option value="TRANSIT">TRANSIT</option>
+        <option value="BICYCLING">BICYCLING</option>
+        <option value="WALKING">WALKING</option>
+      </select>
+      <div v-if="dist && dur">
+        <p>Distance between two locations with {{travelMode}} is: {{dist}}</p>
+        <p>Duration with {{travelMode}} is: {{dur}} </p>
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +56,7 @@ import api from "../api/service";
 import { mapActions, mapGetters } from 'vuex';
 import moment from "moment";
 import GoogleMap from '../components/GoogleMap.vue'
+
 export default {
   components: {
     DefInput,
@@ -55,7 +66,10 @@ export default {
     return {
       moment,
       date: moment(new Date()).format("DD-MM-YYYY HH:mm"),
-      api
+      api,
+      dist: "",
+      dur: "",
+      travelMode: "DRIVING"
     };
   },
   created () {
@@ -63,7 +77,11 @@ export default {
     this.getAgents()
   },
   methods: {
-    ...mapActions(['getAgents'])
+    ...mapActions(['getAgents']),
+    getDuration(dist, dur) {
+      this.dist = dist;
+      this.dur = dur;
+    }
   },
   computed: {
     ...mapGetters(['Agents'])

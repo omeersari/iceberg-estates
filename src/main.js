@@ -20,6 +20,8 @@ Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyCg3-__IKh_PtnT7zsS6KIyJP4cguyZt6o',
     libraries: 'places',
+    region: "GB",
+    language: "en"
   }
 });
 
