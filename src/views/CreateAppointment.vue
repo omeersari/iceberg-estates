@@ -10,7 +10,8 @@
         @getDestination="getDestination"
       />
       <div>
-        <input type="checkbox" v-model="showMarker" /> Only show the destination
+        <input type="checkbox" v-model="showMarker" /> 
+        Only show the destination
         point
       </div>
       <select v-if="showTravelMode" v-model="travelMode">
@@ -19,7 +20,7 @@
         <option value="BICYCLING">BICYCLING</option>
         <option value="WALKING">WALKING</option>
       </select>
-      <div v-if="dist && dur">
+      <div v-if="dist && dur" class="desc">
         <p>
           Distance between two locations with {{ travelMode }} is: {{ dist }}
         </p>

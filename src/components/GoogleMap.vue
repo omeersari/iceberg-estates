@@ -3,11 +3,11 @@
     <div>
       <h2>Please Select The Place</h2>
     </div>
-    <br />
     <GmapMap
       ref="map"
       :center="position"
       :zoom="18"
+      class="google-map"
       style="width: 100%; height: 400px"
       @click="addMarker"
     >
