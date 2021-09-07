@@ -2,7 +2,7 @@
 
 # Todo List
 
-- [ ] Directions will be added on map.
+- [x] Directions will be added on map.
 - [ ] Appointment adress will be shown as post-code.
 - [ ] Agent's busy time will be calculated according to the travel time.
 - [ ] If new appointment for the same agent on the same day, calendar hour selection during appointment's time will be disabled.

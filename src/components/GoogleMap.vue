@@ -11,8 +11,11 @@
       style="width: 100%; height: 400px"
       @click="addMarker"
     >
-      <GmapMarker :position="position" :clickable="true" @click="center = position" />
-      <GmapMarker v-if="newMarker" :position="newMarker" :clickable="true" @click="center = newMarker" />
+      <GmapMarker v-if="!newMarker" :position="position" :clickable="true" @click="center = position" />
+      <!-- Directions Renderer Also mark the map but it shows where the agent can go-->
+      <!-- Our marker marks the exact location on the map. If wanted as disabled we can easily comment the line below-->
+      <GmapMarker v-if="newMarker && !showMarker" :position="newMarker" :clickable="true" @click="center = newMarker"/>
+      <DirectionsRenderer :origin="position" :destination="newMarker" :travelMode="travelMode" />
     </GmapMap>
   </div>
 </template>
@@ -20,6 +23,7 @@
 <script>
 import PostCodeApi from "../api/postcodes";
 import { gmapApi } from "vue2-google-maps";
+import DirectionsRenderer from "../components/DirectionsRenderer.vue"
 
 export default {
   name: "GoogleMap",
@@ -32,6 +36,9 @@ export default {
       duration: "",
     };
   },
+  components: {
+    DirectionsRenderer
+  },
   computed: {
     google: gmapApi,
   },
@@ -40,6 +47,10 @@ export default {
           type: String,
           default: "DRIVING",
           required: false
+      },
+      showMarker: {
+        type: Boolean,
+        required: false
       }
   },
   async created() {

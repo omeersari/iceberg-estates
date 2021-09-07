@@ -35,7 +35,10 @@
     </form>
     </div>
     <div class="map">
-      <GoogleMap @getDuration="getDuration" :travelMode="travelMode" @markerSelected="showTravelMode = true" />
+      <GoogleMap @getDuration="getDuration" :travelMode="travelMode" @markerSelected="showTravelMode = true" :showMarker="showMarker" />
+      <div>
+        <input type="checkbox" v-model="showMarker"> Only show the destination point
+      </div>
       <select v-if="showTravelMode" v-model="travelMode">
         <option value="DRIVING">DRIVING</option>
         <option value="TRANSIT">TRANSIT</option>
@@ -67,6 +70,7 @@ export default {
       moment,
       date: moment(new Date()).format("DD-MM-YYYY HH:mm"),
       api,
+      showMarker: false,
       dist: "",
       dur: "",
       showTravelMode: false,
