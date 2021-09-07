@@ -1,10 +1,9 @@
 <template>
   <div class="user-input">
     <label for=""> {{ placeholder }}</label>
-    <input :type="type" />
+    <input :type="type" :disabled="isDisabled" />
   </div>
 </template>
-
 
 <script>
 export default {
@@ -16,6 +15,11 @@ export default {
     placeholder: {
       type: String,
       required: false,
+    },
+    isDisabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };

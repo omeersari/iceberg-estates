@@ -1,7 +1,5 @@
 <script>
-
 import { MapElementFactory } from "vue2-google-maps";
-
 
 export default MapElementFactory({
   name: "directionsRenderer",
@@ -17,7 +15,7 @@ export default MapElementFactory({
   props: {
     origin: { type: Object },
     destination: { type: Object },
-    travelMode: { type: String }
+    travelMode: { type: String },
   },
 
   afterCreate(directionsRenderer) {
@@ -27,14 +25,13 @@ export default MapElementFactory({
       () => [this.origin, this.destination, this.travelMode],
       () => {
         let { origin, destination, travelMode } = this;
-        console.log(origin, destination, travelMode)
         if (!origin || !destination || !travelMode) return;
 
         directionsService.route(
           {
             origin,
             destination,
-            travelMode
+            travelMode,
           },
           (response, status) => {
             if (status !== "OK") return;
@@ -43,8 +40,6 @@ export default MapElementFactory({
         );
       }
     );
-  }
+  },
 });
-
 </script>
-

@@ -5,7 +5,7 @@ import store from "./store";
 import axios from "axios";
 import VCalendar from "v-calendar";
 import Paginate from "vuejs-paginate";
-import * as VueGoogleMaps from 'vue2-google-maps';
+import * as VueGoogleMaps from "vue2-google-maps";
 
 Vue.config.productionTip = false;
 
@@ -18,11 +18,11 @@ Vue.use(VCalendar, {
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyCg3-__IKh_PtnT7zsS6KIyJP4cguyZt6o',
-    libraries: 'places',
+    key: "AIzaSyCg3-__IKh_PtnT7zsS6KIyJP4cguyZt6o",
+    libraries: "places",
     region: "GB",
-    language: "en"
-  }
+    language: "en",
+  },
 });
 
 new Vue({

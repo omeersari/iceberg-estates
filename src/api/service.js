@@ -56,7 +56,7 @@ export default {
   getAgents() {
     return this.execute(
       "get",
-      'Agents?filterByFromula=NOT%28%7Bagent_id%7D%20%3D%20%27%27%29'
-    )
-  }
+      "Agents?filterByFromula=NOT%28%7Bagent_id%7D%20%3D%20%27%27%29"
+    );
+  },
 };

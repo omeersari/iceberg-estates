@@ -11,11 +11,25 @@
       style="width: 100%; height: 400px"
       @click="addMarker"
     >
-      <GmapMarker v-if="!newMarker" :position="position" :clickable="true" @click="center = position" />
+      <GmapMarker
+        v-if="!newMarker"
+        :position="position"
+        :clickable="true"
+        @click="center = position"
+      />
       <!-- Directions Renderer Also mark the map but it shows where the agent can go-->
       <!-- Our marker marks the exact location on the map. If wanted as disabled we can easily comment the line below-->
-      <GmapMarker v-if="newMarker && !showMarker" :position="newMarker" :clickable="true" @click="center = newMarker"/>
-      <DirectionsRenderer :origin="position" :destination="newMarker" :travelMode="travelMode" />
+      <GmapMarker
+        v-if="newMarker && !showMarker"
+        :position="newMarker"
+        :clickable="true"
+        @click="center = newMarker"
+      />
+      <DirectionsRenderer
+        :origin="position"
+        :destination="newMarker"
+        :travelMode="travelMode"
+      />
     </GmapMap>
   </div>
 </template>
@@ -23,7 +37,7 @@
 <script>
 import PostCodeApi from "../api/postcodes";
 import { gmapApi } from "vue2-google-maps";
-import DirectionsRenderer from "../components/DirectionsRenderer.vue"
+import DirectionsRenderer from "../components/DirectionsRenderer.vue";
 
 export default {
   name: "GoogleMap",
@@ -37,21 +51,21 @@ export default {
     };
   },
   components: {
-    DirectionsRenderer
+    DirectionsRenderer,
   },
   computed: {
     google: gmapApi,
   },
   props: {
-      travelMode: {
-          type: String,
-          default: "DRIVING",
-          required: false
-      },
-      showMarker: {
-        type: Boolean,
-        required: false
-      }
+    travelMode: {
+      type: String,
+      default: "DRIVING",
+      required: false,
+    },
+    showMarker: {
+      type: Boolean,
+      required: false,
+    },
   },
   async created() {
     const res = await this.PostCodeApi.getPostCode("cm27pj");
@@ -60,30 +74,31 @@ export default {
   },
   methods: {
     addMarker(event) {
-        const marker = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        }
-        this.newMarker = marker
-        this.$emit('markerSelected', true)
-        this.calculateDistance()
+      const marker = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      };
+      this.newMarker = marker;
+      this.$emit("markerSelected", true);
+      this.$emit("getDestination", marker);
+      this.calculateDistance();
     },
     async calculateDistance() {
-        const service = new this.google.maps.DistanceMatrixService();
-        const res = await service.getDistanceMatrix({
-            origins: [this.position],
-            destinations: [this.newMarker],
-            travelMode: this.travelMode,
-        })
-        this.distance = res.rows[0].elements[0].distance['text']
-        this.duration = res.rows[0].elements[0].duration['text']
-        this.$emit('getDuration', this.distance, this.duration)
+      const service = new this.google.maps.DistanceMatrixService();
+      const res = await service.getDistanceMatrix({
+        origins: [this.position],
+        destinations: [this.newMarker],
+        travelMode: this.travelMode,
+      });
+      this.distance = res.rows[0].elements[0].distance["text"];
+      this.duration = res.rows[0].elements[0].duration;
+      this.$emit("getDuration", this.distance, this.duration);
     },
   },
   watch: {
-    travelMode: function() {
-        this.calculateDistance()
-    }
-  }
+    travelMode: function () {
+      this.calculateDistance();
+    },
+  },
 };
 </script>

@@ -18,25 +18,24 @@
 </template>
 
 <script>
-
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       menuClicked: false,
-    }
+    };
   },
   computed: {
-    ...mapGetters(['ShowMenu'])
+    ...mapGetters(["ShowMenu"]),
   },
   methods: {
-    ...mapActions(['showMenu']),
+    ...mapActions(["showMenu"]),
     openMenu() {
-      this.menuClicked = this.ShowMenu
-      this.menuClicked = !this.menuClicked
-      this.showMenu(this.menuClicked)
-    }
-  }
-}
+      this.menuClicked = this.ShowMenu;
+      this.menuClicked = !this.menuClicked;
+      this.showMenu(this.menuClicked);
+    },
+  },
+};
 </script>

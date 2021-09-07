@@ -1,43 +1,17 @@
 <template>
   <div class="app-form">
-    <div class="form">
-      <h2>Create application</h2>
-      <form class="application-form" action="">
-      <def-input :type="'text'" :placeholder="'Post Code'" />
-      <div class="user-input">
-        <label for="">Date</label>
-      <vc-date-picker class="inline-block h-full" v-model="date" mode="dateTime" is24hr :minute-increment="5">
-        <template v-slot="{ inputValue, inputEvents }">
-          <input
-            placeholder="Pick a Date"
-            class="bg-white border px-2 py-1 rounded"
-            :value="inputValue"
-            v-on="inputEvents"
-          />
-        </template>
-      </vc-date-picker>
-      </div>
-      
-      <def-input :type="'text'" :placeholder="'Name'" />
-      <def-input :type="'text'" :placeholder="'Surname'" />
-      <def-input :type="'email'" :placeholder="'Email'" />
-      <def-input :type="'tel'" :placeholder="'Phone'" />
-      <div class="user-input">
-        <label for="">Agent</label>
-      <select>
-        <option value="" selected disabled>Please assign an agent</option>
-        <option v-for="(agent, index) in Agents" :key="index" :value="agent.id"> {{agent['fields'].agent_name}} {{agent['fields'].agent_surname}}</option>
-      </select>
-      </div>
-      <div class="user-input">
-        <button>CREATE</button>
-      </div>
-    </form>
-    </div>
+    <application-form :agents="Agents" />
     <div class="map">
-      <GoogleMap @getDuration="getDuration" :travelMode="travelMode" @markerSelected="showTravelMode = true" :showMarker="showMarker" />
+      <GoogleMap
+        @getDuration="getDuration"
+        :travelMode="travelMode"
+        @markerSelected="showTravelMode = true"
+        :showMarker="showMarker"
+        @getDestination="getDestination"
+      />
       <div>
-        <input type="checkbox" v-model="showMarker"> Only show the destination point
+        <input type="checkbox" v-model="showMarker" /> Only show the destination
+        point
       </div>
       <select v-if="showTravelMode" v-model="travelMode">
         <option value="DRIVING">DRIVING</option>
@@ -46,50 +20,55 @@
         <option value="WALKING">WALKING</option>
       </select>
       <div v-if="dist && dur">
-        <p>Distance between two locations with {{travelMode}} is: {{dist}}</p>
-        <p>Duration with {{travelMode}} is: {{dur}} </p>
+        <p>
+          Distance between two locations with {{ travelMode }} is: {{ dist }}
+        </p>
+        <p>Duration with {{ travelMode }} is: {{ dur }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import DefInput from '../components/DefInput.vue'
+import ApplicationForm from "../components/ApplicationForm.vue";
+import { mapActions, mapGetters } from "vuex";
+import GoogleMap from "../components/GoogleMap.vue";
 import api from "../api/service";
-import { mapActions, mapGetters } from 'vuex';
-import moment from "moment";
-import GoogleMap from '../components/GoogleMap.vue'
 
 export default {
   components: {
-    DefInput,
-    GoogleMap
+    GoogleMap,
+    ApplicationForm,
   },
   data() {
     return {
-      moment,
-      date: moment(new Date()).format("DD-MM-YYYY HH:mm"),
       api,
       showMarker: false,
       dist: "",
       dur: "",
+      durSecond: "",
       showTravelMode: false,
-      travelMode: "DRIVING"
+      travelMode: "DRIVING",
+      destination: "",
     };
   },
-  created () {
-    this.$store.dispatch('showMenu', false)
-    this.getAgents()
+  created() {
+    this.$store.dispatch("showMenu", false);
+    this.getAgents();
   },
   methods: {
-    ...mapActions(['getAgents']),
+    ...mapActions(["getAgents"]),
     getDuration(dist, dur) {
       this.dist = dist;
-      this.dur = dur;
+      this.dur = dur["text"];
+      this.durSecond = dur["value"];
+    },
+    getDestination(marker) {
+      this.destination = marker;
     },
   },
   computed: {
-    ...mapGetters(['Agents'])
-  }
+    ...mapGetters(["Agents"]),
+  },
 };
 </script>
