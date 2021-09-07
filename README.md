@@ -13,6 +13,7 @@
 - [ ] Authentication will be done.
 - [ ] Creating new admins for the web-application will be done.
 - [ ] For home page, a small read-me will be done.
+- [ ] Styling and responsive design will be applied to all pages.
 
 ## Project setup
 ```
