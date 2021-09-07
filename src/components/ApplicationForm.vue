@@ -4,7 +4,7 @@
     <form class="application-form" @submit.prevent="createApplication">
       <div class="user-input">
         <my-label :label="'Post Code'" />
-        <input type="text" disabled v-model="dataForm.postCode" />
+        <input type="text" disabled v-model="postCode" />
       </div>
       <div class="user-input">
         <my-label :label="'Date'" />
@@ -26,20 +26,17 @@
         </vc-date-picker>
       </div>
       <div class="user-input">
-        <my-label :label="'Name'" />
-        <input type="text" v-model="dataForm.name" />
-      </div>
-      <div class="user-input">
-        <my-label :label="'Surname'" />
-        <input type="text" v-model="dataForm.surname" />
-      </div>
-      <div class="user-input">
-        <my-label :label="'Email'" />
-        <input type="email" v-model="dataForm.email" />
-      </div>
-      <div class="user-input">
-        <my-label :label="'Phone'" />
-        <input type="tel" v-model="dataForm.phone" />
+        <my-label :label="'Contact'" />
+        <select v-model="dataForm.contact">
+          <option value="" selected disabled>Please select a contact</option>
+          <option
+            v-for="(contact, index) in contacts"
+            :key="index"
+            :value="contact.id"
+          >
+            {{ contact["fields"].contact_name }} {{ contact["fields"].contact_surname }}
+          </option>
+        </select>
       </div>
       <div class="user-input">
         <my-label :label="'Agent'" />
@@ -74,18 +71,22 @@ export default {
     agents: {
       type: Array,
     },
+    postCode: {
+        type: String,
+        required: false,
+    },
+    contacts: {
+        type: Array,
+    }
   },
   data() {
     return {
       moment,
       api,
       dataForm: {
-        postCode: "",
+        postCode: this.postCode,
         date: moment(new Date()).format("DD-MM-YYYY HH:mm"),
-        name: "",
-        surname: "",
-        email: "",
-        phone: "",
+        contact: "",
         agent: "",
       },
     };

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     offset: "",
     showMenu: false,
     agents: [],
+    contacts: [],
   },
   getters: {
     Appointments: (state) => state.appointments,
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     Offset: (state) => state.offset,
     ShowMenu: (state) => state.showMenu,
     Agents: (state) => state.agents,
+    Contacts: (state) => state.contacts,
   },
   mutations: {
     GET_APPOINTMENTS(state, payload) {
@@ -45,6 +47,17 @@ export default new Vuex.Store({
     GET_AGENTS(state, payload) {
       state.agents = payload.records;
     },
+    GET_CONTACTS(state, payload) {
+      const flags = new Set()
+      const newContacts = payload.records.filter(item => {
+        if (flags.has(item["fields"].contact_phone)) {
+          return false;
+        }
+        flags.add(item["fields"].contact_phone)
+        return true;
+      })
+      state.contacts = newContacts;
+    },
   },
   actions: {
     async getAppointments({ commit }) {
@@ -66,6 +79,10 @@ export default new Vuex.Store({
       const response = await api.getAgents();
       commit("GET_AGENTS", response);
     },
+    async getContacts({commit}) {
+      const response = await api.getContacts();
+      commit("GET_CONTACTS", response)
+    }
   },
   modules: {},
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="app-form">
-    <application-form :agents="Agents" />
+    <application-form :agents="Agents" :contacts="Contacts" :postCode="postCode" />
     <div class="map">
       <GoogleMap
         @getDuration="getDuration"
@@ -34,6 +34,7 @@ import ApplicationForm from "../components/ApplicationForm.vue";
 import { mapActions, mapGetters } from "vuex";
 import GoogleMap from "../components/GoogleMap.vue";
 import api from "../api/service";
+import PostCodeApi from "../api/postcodes";
 
 export default {
   components: {
@@ -43,6 +44,7 @@ export default {
   data() {
     return {
       api,
+      PostCodeApi,
       showMarker: false,
       dist: "",
       dur: "",
@@ -50,25 +52,34 @@ export default {
       showTravelMode: false,
       travelMode: "DRIVING",
       destination: "",
+      postCode: "",
+      error: ""
     };
   },
   created() {
     this.$store.dispatch("showMenu", false);
     this.getAgents();
+    this.getContacts();
   },
   methods: {
-    ...mapActions(["getAgents"]),
+    ...mapActions(["getAgents", "getContacts"]),
     getDuration(dist, dur) {
       this.dist = dist;
       this.dur = dur["text"];
       this.durSecond = dur["value"];
     },
-    getDestination(marker) {
+    async getDestination(marker) {
       this.destination = marker;
+      const res = await this.PostCodeApi.getNearestPostCode(marker)
+      if (res.status == 200) {
+        this.postCode = res.result[0].postcode
+      }else {
+        this.error = "Post Code not found. Please select another location"
+      }
     },
   },
   computed: {
-    ...mapGetters(["Agents"]),
+    ...mapGetters(["Agents", "Contacts"]),
   },
 };
 </script>

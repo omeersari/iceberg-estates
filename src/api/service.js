@@ -37,9 +37,6 @@ export default {
       );
     }
   },
-  createAppointments(data) {
-    return this.execute("post", "Appointments", data);
-  },
   sortDates(data) {
     return this.execute(
       "get",
@@ -58,5 +55,14 @@ export default {
       "get",
       "Agents?filterByFromula=NOT%28%7Bagent_id%7D%20%3D%20%27%27%29"
     );
+  },
+  getContacts() {
+    return this.execute(
+      "get",
+      "Contacts?filterByFromula=NOT%28%7Bcontact_id%7D%20%3D%20%27%27%29"
+    );
+  },
+  createAppointments(data) {
+    return this.execute("post", "Appointments", data);
   },
 };
