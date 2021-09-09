@@ -38,6 +38,18 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "users" */ "../views/Users.vue"),
   },
+  {
+    path: "/createcontact",
+    name: "CreateContact",
+    component: () =>
+      import(/* webpackChunkName: "CreateContact" */ "../views/CreateContact.vue"),
+  },
+  {
+    path: "/createagent",
+    name: "CreateAgent",
+    component: () =>
+      import(/* webpackChunkName: "CreateAgent" */ "../views/CreateAgent.vue"),
+  },
 ];
 
 const router = new VueRouter({

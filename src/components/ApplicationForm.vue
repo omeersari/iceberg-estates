@@ -4,7 +4,7 @@
     <form class="application-form" @submit.prevent="createApplication">
       <div class="user-input">
         <my-label :label="'Post Code'" />
-        <input type="text" disabled v-model="postCode" />
+        <input type="text" disabled v-model="postCode"/>
       </div>
       <div class="user-input">
         <my-label :label="'Date'" />
@@ -14,6 +14,7 @@
           mode="dateTime"
           is24hr
           :minute-increment="5"
+          :min-date='new Date()'
         >
           <template v-slot="{ inputValue, inputEvents }">
             <input
@@ -37,6 +38,7 @@
             {{ contact["fields"].contact_name }} {{ contact["fields"].contact_surname }}
           </option>
         </select>
+        <router-link to="/createcontact" class="minor-link"><i class="fas fa-plus"></i> Create a new contact</router-link>
       </div>
       <div class="user-input">
         <my-label :label="'Agent'" />
@@ -50,6 +52,7 @@
             {{ agent["fields"].agent_name }} {{ agent["fields"].agent_surname }}
           </option>
         </select>
+        <router-link to="/createagent" class="minor-link"><i class="fas fa-plus"></i> Create a new agent</router-link>
       </div>
       <div class="user-input">
         <button>CREATE</button>
@@ -62,6 +65,7 @@
 import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
+
 
 export default {
   components: {
@@ -84,7 +88,6 @@ export default {
       moment,
       api,
       dataForm: {
-        postCode: this.postCode,
         date: moment(new Date()).format("DD-MM-YYYY HH:mm"),
         contact: "",
         agent: "",
@@ -92,9 +95,27 @@ export default {
     };
   },
   methods: {
-    createApplication() {
-      console.log(this.dataForm);
+    async createApplication() {
+      const data = {
+        fields: {
+          appointment_date: this.dataForm.date,
+          appointment_postcode: this.postCode,
+          contact_id: [this.dataForm.contact],
+          agent_id: [this.dataForm.agent]
+        }
+      }
+      console.log(data)
+      this.resetForm()
+      this.$emit('appCreated')
+      //await this.api.createAppointment(data)
     },
-  },
+     resetForm () {
+      this.dataForm = {
+        date: "",
+        contact: "",
+        agent: "", 
+      }
+    }
+  }
 };
 </script>

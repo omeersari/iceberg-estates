@@ -62,7 +62,19 @@ export default {
       "Contacts?filterByFromula=NOT%28%7Bcontact_id%7D%20%3D%20%27%27%29"
     );
   },
-  createAppointments(data) {
+  createAppointment(data) {
     return this.execute("post", "Appointments", data);
   },
+  createAgent(data) {
+    return this.execute(
+      "post",
+      "Agents", data
+    );
+  },
+  createContact(data) {
+    return this.execute(
+      "post",
+      "Contacts", data
+    );
+  }
 };

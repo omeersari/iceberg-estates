@@ -1,6 +1,6 @@
 <template>
   <div class="app-form">
-    <application-form :agents="Agents" :contacts="Contacts" :postCode="postCode" />
+    <application-form :agents="Agents" :contacts="Contacts" :postCode="postCode" @appCreated="appCreated" />
     <div class="map">
       <GoogleMap
         @getDuration="getDuration"
@@ -54,7 +54,7 @@ export default {
       travelMode: "DRIVING",
       destination: "",
       postCode: "",
-      error: ""
+      error: "",
     };
   },
   created() {
@@ -78,6 +78,9 @@ export default {
         this.error = "Post Code not found. Please select another location"
       }
     },
+    appCreated() {
+      this.postCode = ""
+    }
   },
   computed: {
     ...mapGetters(["Agents", "Contacts"]),
