@@ -31,6 +31,7 @@
         :travelMode="travelMode"
       />
     </GmapMap>
+    <button @click="resetMap()">reset map</button>
   </div>
 </template>
 
@@ -55,6 +56,7 @@ export default {
   },
   computed: {
     google: gmapApi,
+    
   },
   props: {
     travelMode: {
@@ -68,11 +70,15 @@ export default {
     },
   },
   async created() {
-    const res = await this.PostCodeApi.getPostCode("cm27pj");
-    this.position["lat"] = res.result.latitude;
-    this.position["lng"] = res.result.longitude;
+    this.showOurLocation()
+    
   },
   methods: {
+    async showOurLocation() {
+      const res = await this.PostCodeApi.getPostCode("cm27pj");
+      this.position["lat"] = res.result.latitude;
+      this.position["lng"] = res.result.longitude;
+    },
     addMarker(event) {
       const marker = {
         lat: event.latLng.lat(),
@@ -94,6 +100,9 @@ export default {
       this.duration = res.rows[0].elements[0].duration;
       this.$emit("getDuration", this.distance, this.duration);
     },
+    resetMap() {
+      // will be improved
+    }
   },
   watch: {
     travelMode: function () {
