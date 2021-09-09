@@ -65,6 +65,7 @@
 import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
+import { mapGetters } from 'vuex'
 
 
 export default {
@@ -94,6 +95,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(['AgentsTimes'])
+  },
   methods: {
     async createApplication() {
       const data = {
@@ -104,7 +108,7 @@ export default {
           agent_id: [this.dataForm.agent]
         }
       }
-      console.log(data)
+      this.$control.controlTime(data, this.AgentsTimes)
       this.resetForm()
       this.$emit('appCreated')
       //await this.api.createAppointment(data)
@@ -116,6 +120,6 @@ export default {
         agent: "", 
       }
     }
-  }
+  },
 };
 </script>

@@ -6,22 +6,29 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    allAppointments: [],
     appointments: [],
     len: "",
     offset: "",
     showMenu: false,
     agents: [],
     contacts: [],
+    agentsTimes: [],
   },
   getters: {
+    AllAppointments: (state) => state.allAppointments,
     Appointments: (state) => state.appointments,
     Len: (state) => state.len,
     Offset: (state) => state.offset,
     ShowMenu: (state) => state.showMenu,
     Agents: (state) => state.agents,
     Contacts: (state) => state.contacts,
+    AgentsTimes: (state) => state.agentsTimes
   },
   mutations: {
+    GET_ALL_APPOINMENTS(state, payload) {
+      state.allAppointments = payload.records
+    },
     GET_APPOINTMENTS(state, payload) {
       state.appointments = payload.records;
       state.offset = payload.offset;
@@ -58,8 +65,28 @@ export default new Vuex.Store({
       })
       state.contacts = newContacts;
     },
+    AGENTS_TIME(state, payload) {
+      if (state.allAppointments) {
+        payload.records.forEach(element => {
+          element['fields'].Appointments.forEach(appointment => {
+            const app = state.allAppointments.find(el => el.id == appointment)
+            const time = app['fields'].appointment_date
+            state.agentsTimes.push(
+              {
+                agent_id : element.id,
+                busyTime : time
+              }
+            )
+          })
+        });
+      }
+    }
   },
   actions: {
+    async getAllAppointments({commit}) {
+      const response = await api.getAllAppointments();
+      commit("GET_ALL_APPOINMENTS", response)
+    },
     async getAppointments({ commit }) {
       const response = await api.getAppointments();
       commit("GET_APPOINTMENTS", response);
@@ -78,6 +105,7 @@ export default new Vuex.Store({
     async getAgents({ commit }) {
       const response = await api.getAgents();
       commit("GET_AGENTS", response);
+      commit("AGENTS_TIME", response)
     },
     async getContacts({commit}) {
       const response = await api.getContacts();

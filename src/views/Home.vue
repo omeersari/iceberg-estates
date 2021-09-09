@@ -15,16 +15,9 @@
 
 <script>
 // @ is an alias to /src
+
 export default {
   name: "Home",
-  async created() {
-    const res = await this.$http.post(process.env.VUE_APP_API, {
-      fields: {
-        appointment_date: "2020-10-14T00:03:00.000Z",
-      },
-    });
-    console.log(res.data);
-  },
   methods: {
     gotoHomepage() {
       this.$router.push("/dashboard");
