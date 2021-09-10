@@ -36,6 +36,7 @@ import { mapActions, mapGetters } from "vuex";
 import GoogleMap from "../components/GoogleMap.vue";
 import api from "../api/service";
 import PostCodeApi from "../api/postcodes";
+import moment from 'moment';
 
 export default {
   components: {
@@ -78,12 +79,32 @@ export default {
         this.error = "Post Code not found. Please select another location"
       }
     },
-    appCreated() {
+    
+    appCreated(data) {
+      console.log(data)
+      let appTime = data["fields"].appointment_date
+      console.log("önce", appTime)
+      const depTime = moment(appTime).subtract(this.durSecond, 'seconds').toDate()
+      const arrTime = moment(appTime).add(1, 'hours').add(this.durSecond, 'seconds').toDate()
+      console.log(depTime, arrTime)
+      // if success
+      /*
+      this.AgentsTimes.push(
+        {
+          agent_id: data["fields"].agent_id[0],
+          busyTime: data["fields"].appointment_date,
+          depTime,
+          arrTime
+        }
+      )
+      */
+      const result = this.$control.controlTime(data, this.AgentsTimes)
+      console.log(result)
       this.postCode = ""
     }
   },
   computed: {
-    ...mapGetters(["Agents", "Contacts"]),
+    ...mapGetters(["Agents", "Contacts", "AgentsTimes"]),
   },
 };
 </script>
