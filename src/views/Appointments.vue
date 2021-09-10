@@ -1,5 +1,5 @@
 <template>
-  <div class="appointments">
+  <div class="page">
     <form @submit.prevent="filterAgents">
       <input type="text" placeholder="Filter by agent name" v-model="filter" />
       <button>Filter</button>
@@ -25,7 +25,7 @@
         <div class="item">
           <div class="responsive-label">App. Date</div>
           <div>
-            {{ moment(item["fields"].appointment_date).format("DD-MM-YYYY") }}
+            {{ moment(item["fields"].appointment_date).format("DD-MM-YYYY HH:mm") }}
           </div>
         </div>
         <div class="item">

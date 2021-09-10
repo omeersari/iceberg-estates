@@ -4,7 +4,7 @@
     <form class="application-form" @submit.prevent="createApplication">
       <div class="user-input">
         <my-label :label="'Post Code'" />
-        <input type="text" disabled v-model="postCode"/>
+        <input type="text" disabled v-model="postCode" />
       </div>
       <div class="user-input">
         <my-label :label="'Date'" />
@@ -14,7 +14,7 @@
           mode="dateTime"
           is24hr
           :minute-increment="5"
-          :min-date='new Date()'
+          :min-date="new Date()"
           :timezone="'UTC'"
         >
           <template v-slot="{ inputValue, inputEvents }">
@@ -36,10 +36,13 @@
             :key="index"
             :value="contact.id"
           >
-            {{ contact["fields"].contact_name }} {{ contact["fields"].contact_surname }}
+            {{ contact["fields"].contact_name }}
+            {{ contact["fields"].contact_surname }}
           </option>
         </select>
-        <router-link to="/createcontact" class="minor-link"><i class="fas fa-plus"></i> Create a new contact</router-link>
+        <router-link to="/createcontact" class="minor-link"
+          ><i class="fas fa-plus"></i> Create a new contact</router-link
+        >
       </div>
       <div class="user-input">
         <my-label :label="'Agent'" />
@@ -53,12 +56,17 @@
             {{ agent["fields"].agent_name }} {{ agent["fields"].agent_surname }}
           </option>
         </select>
-        <router-link to="/createagent" class="minor-link"><i class="fas fa-plus"></i> Create a new agent</router-link>
+        <router-link to="/createagent" class="minor-link"
+          ><i class="fas fa-plus"></i> Create a new agent</router-link
+        >
       </div>
       <div class="user-input">
         <button>CREATE</button>
       </div>
     </form>
+    <div v-if="error" class="error">
+      {{error}}
+    </div>
   </div>
 </template>
 
@@ -78,12 +86,12 @@ export default {
       type: Array,
     },
     postCode: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
     contacts: {
-        type: Array,
-    }
+      type: Array,
+    },
   },
   data() {
     return {
@@ -95,31 +103,42 @@ export default {
         agent: "",
       },
       masks: {
-        input: mask
-      }
+        input: mask,
+      },
+      error: ""
     };
+  },
+  created () {
+    this.error = ""
   },
   methods: {
     async createApplication() {
-      const data = {
-        fields: {
-          appointment_date: this.dataForm.date,
-          appointment_postcode: this.postCode,
-          contact_id: [this.dataForm.contact],
-          agent_id: [this.dataForm.agent]
-        }
+      if (this.postCode && this.dataForm.date && this.dataForm.contact && this.dataForm.agent) {
+        this.error = ""
+        const data = {
+          fields: {
+            appointment_date: this.dataForm.date,
+            appointment_postcode: this.postCode,
+            contact_id: [this.dataForm.contact],
+            agent_id: [this.dataForm.agent],
+          },
+        };
+        this.$emit("appCreated", data);
+        
+        //this.$router.go(0); // hayırlı olsun
+      }else {
+        this.error = "Please make sure all fields are filled"
       }
-      this.$emit('appCreated', data)
-      this.resetForm()
+
       //await this.api.createAppointment(data)
     },
-     resetForm () {
+    resetForm() {
       this.dataForm = {
         date: "",
         contact: "",
-        agent: "", 
-      }
-    }
+        agent: "",
+      };
+    },
   },
 };
 </script>

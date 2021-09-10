@@ -31,7 +31,6 @@
         :travelMode="travelMode"
       />
     </GmapMap>
-    <button @click="resetMap()">reset map</button>
   </div>
 </template>
 
@@ -96,13 +95,14 @@ export default {
         destinations: [this.newMarker],
         travelMode: this.travelMode,
       });
-      this.distance = res.rows[0].elements[0].distance["text"];
-      this.duration = res.rows[0].elements[0].duration;
-      this.$emit("getDuration", this.distance, this.duration);
+      console.log(res)
+      if (res.rows[0].elements[0].distance) {
+        this.distance = res.rows[0].elements[0].distance["text"];
+        this.duration = res.rows[0].elements[0].duration;
+        this.$emit("getDuration", this.distance, this.duration);
+      }
+      
     },
-    resetMap() {
-      // will be improved
-    }
   },
   watch: {
     travelMode: function () {
