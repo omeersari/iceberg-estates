@@ -6,8 +6,11 @@ import VCalendar from "v-calendar";
 import Paginate from "vuejs-paginate";
 import * as VueGoogleMaps from "vue2-google-maps";
 import { control } from './plugins/controlAgentTime'
+import moment from 'moment-timezone'
 
 Vue.config.productionTip = false;
+
+moment.tz.setDefault('UTC')
 
 Vue.prototype.$control = control;
 Vue.component("paginate", Paginate);

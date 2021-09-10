@@ -15,6 +15,7 @@
           is24hr
           :minute-increment="5"
           :min-date='new Date()'
+          :timezone="'UTC'"
         >
           <template v-slot="{ inputValue, inputEvents }">
             <input
@@ -65,8 +66,8 @@
 import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
-import { mapGetters } from 'vuex'
 
+const mask = "DD-MM-YYYY HH:MM";
 
 export default {
   components: {
@@ -89,14 +90,14 @@ export default {
       moment,
       api,
       dataForm: {
-        date: moment(new Date()).format("DD-MM-YYYY HH:mm"),
+        date: "",
         contact: "",
         agent: "",
       },
+      masks: {
+        input: mask
+      }
     };
-  },
-  computed: {
-    ...mapGetters(['AgentsTimes'])
   },
   methods: {
     async createApplication() {
@@ -108,9 +109,8 @@ export default {
           agent_id: [this.dataForm.agent]
         }
       }
-      this.$control.controlTime(data, this.AgentsTimes)
+      this.$emit('appCreated', data)
       this.resetForm()
-      this.$emit('appCreated')
       //await this.api.createAppointment(data)
     },
      resetForm () {
