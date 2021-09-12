@@ -17,7 +17,7 @@
         <div>Agent Name</div>
         <div>Actions</div>
       </div>
-      <div v-for="(item, index) in Appointments" :key="index" class="app-table">
+      <div v-for="(item, index) in Appointments" :key="index" class="app-table" :class="isPassive(index) ? 'isPassive' : ''">
         <div class="item">
           <div class="responsive-label">ID:</div>
           <div>{{ index + 1 }}</div>
@@ -118,6 +118,15 @@ export default {
   },
   methods: {
     ...mapActions(["getAppointments", "viewMore", "sortbyDate", "showMenu"]),
+    isPassive (index) {
+        const item = this.Appointments[index]
+        const date = new Date().toISOString()
+        if (date > item["fields"].appointment_date ) {
+          return true
+        } else {
+          return false
+        }
+    },
     async viewmore(event) {
       const target = event.target || event.srcElement;
       if (target.getAttribute("disabled")) {
