@@ -7,9 +7,6 @@
       @appCreated="appCreated"
       ref="form"
     />
-    <p v-if="error" class="error">
-        {{ error }}
-    </p>
     <div class="map">
       <GoogleMap
         @getDuration="getDuration"
@@ -67,7 +64,6 @@ export default {
       travelMode: "DRIVING",
       destination: "",
       postCode: "",
-      error: "",
       depTime: "",
       arrTime: "",
     };
@@ -77,7 +73,7 @@ export default {
     this.$store.dispatch("showMenu", false);
     this.getAgents();
     this.getContacts();
-    this.error = "";
+    this.$store.dispatch("createError", "")
   },
   methods: {
     ...mapActions(["getAgents", "getContacts"]),
@@ -91,10 +87,10 @@ export default {
       const res = await this.PostCodeApi.getNearestPostCode(marker);
       if (res.status == 200 && res.result) {
         this.postCode = res.result[0].postcode;
-        this.error = "";
+        this.$store.dispatch('createError', "");
       } else {
         this.postCode = "";
-        this.error = "Post Code not found. Please select another location";
+        this.$store.dispatch('createError', "Post Code not found. Please select another location")
       }
     },
 
@@ -120,8 +116,7 @@ export default {
         this.$refs.form.resetForm();
         this.postCode = "";
       } else {
-        this.error =
-          "This agent is not avaliable during this time. Please select another date or time";
+        this.$store.dispatch('createError', "This agent is not avaliable during this time. Please select another date or time")
       }
     },
   },

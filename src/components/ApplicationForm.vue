@@ -75,6 +75,7 @@ import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
 
+
 const mask = "DD-MM-YYYY HH:MM";
 
 export default {
@@ -105,16 +106,17 @@ export default {
       masks: {
         input: mask,
       },
-      error: ""
     };
   },
-  created () {
-    this.error = ""
+  computed: {
+    error () {
+      return this.$store.getters.Error
+    }
   },
   methods: {
     async createApplication() {
       if (this.postCode && this.dataForm.date && this.dataForm.contact && this.dataForm.agent) {
-        this.error = ""
+        this.$store.dispatch("createError", "")
         const data = {
           fields: {
             appointment_date: this.dataForm.date,
@@ -127,7 +129,7 @@ export default {
         
         //this.$router.go(0); // hayırlı olsun
       }else {
-        this.error = "Please make sure all fields are filled"
+        this.$store.dispatch("createError","Please make sure all fields are filled")
       }
 
       //await this.api.createAppointment(data)

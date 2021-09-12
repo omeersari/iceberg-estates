@@ -14,6 +14,7 @@ export default new Vuex.Store({
     agents: [],
     contacts: [],
     agentsTimes: [],
+    error: "",
   },
   getters: {
     AllAppointments: (state) => state.allAppointments,
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     ShowMenu: (state) => state.showMenu,
     Agents: (state) => state.agents,
     Contacts: (state) => state.contacts,
-    AgentsTimes: (state) => state.agentsTimes
+    AgentsTimes: (state) => state.agentsTimes,
+    Error: (state) => state.error,
   },
   mutations: {
     GET_ALL_APPOINMENTS(state, payload) {
@@ -80,6 +82,9 @@ export default new Vuex.Store({
           })
         });
       }
+    },
+    MAKE_ERROR(state, payload) {
+      state.error = payload
     }
   },
   actions: {
@@ -110,6 +115,9 @@ export default new Vuex.Store({
     async getContacts({commit}) {
       const response = await api.getContacts();
       commit("GET_CONTACTS", response)
+    },
+    createError({commit}, err) {
+      commit("MAKE_ERROR", err )
     }
   },
   modules: {},
