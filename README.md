@@ -4,12 +4,12 @@
 
 - [x] Directions will be added on map.
 - [x] Appointment adress will be shown as post-code.
-- [ ] Agent's busy time will be calculated according to the travel time.
-- [ ] If new appointment for the same agent on the same day, calendar hour selection during appointment's time will be disabled.
-- [ ] Create application will be finished.
+- [x] Agent's busy time will be calculated according to the travel time.
+- [x] If new appointment for the same agent on the same day, calendar hour selection during appointment's time will be disabled.
+- [x] Create application will be finished.
 - [ ] Appointments will be filtered according to agent's name.
-- [ ] Past appointmets will be shown as passive in appointments page.
-- [ ] Edit appointment will be finished.
+- [x] Past appointmets will be shown as passive in appointments page.
+- [x] Edit appointment will be finished.
 - [ ] Authentication will be done.
 - [ ] Creating new admins for the web-application will be done.
 - [ ] For home page, a small read-me will be done.
