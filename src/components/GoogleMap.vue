@@ -2,6 +2,7 @@
   <div>
     <div>
       <h2>Please Select The Place</h2>
+      {{this.$store.getters.UpdatingAdress}}
     </div>
     <GmapMap
       ref="map"
@@ -12,7 +13,7 @@
       @click="addMarker"
     >
       <GmapMarker
-        v-if="!newMarker"
+        v-if="!showMarker"
         :position="position"
         :clickable="true"
         @click="center = position"
@@ -68,9 +69,21 @@ export default {
       required: false,
     },
   },
-  async created() {
+  mounted() {
     this.showOurLocation()
-    
+    console.log(this.$store.getters.UpdatingAdress)
+    if (this.$store.getters.UpdatingAdress) {
+      setTimeout(() => {
+        this.newMarker = this.$store.getters.UpdatingAdress
+        this.$emit("markerSelected", true);
+        this.calculateDistance()
+      }, 500)
+      
+    }
+  },
+  beforeDestroy () {
+    this.$store.dispatch("clearUpdateAddress")
+    this.$emit("markerSelected", false);
   },
   methods: {
     async showOurLocation() {
@@ -95,7 +108,6 @@ export default {
         destinations: [this.newMarker],
         travelMode: this.travelMode,
       });
-      console.log(res)
       if (res.rows[0].elements[0].distance) {
         this.distance = res.rows[0].elements[0].distance["text"];
         this.duration = res.rows[0].elements[0].duration;

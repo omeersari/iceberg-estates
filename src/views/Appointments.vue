@@ -80,7 +80,7 @@
         </div>
         <div class="item">
           <div class="responsive-label">Action:</div>
-          <div><button class="edit">EDIT</button></div>
+          <div><button class="edit" :disabled="isPassive(index)" @click="onUpdate(item)">EDIT</button></div>
         </div>
       </div>
     </div>
@@ -91,14 +91,13 @@
 </template>
 
 <script>
-import api from "../api/service";
+
 import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      api,
       res: [],
       sort: true,
       moment,
@@ -114,10 +113,10 @@ export default {
     this.showMenu(false);
   },
   computed: {
-    ...mapGetters(["Appointments", "Len", "Offset"]),
+    ...mapGetters(["Appointments", "Len", "Offset", "Error"]),
   },
   methods: {
-    ...mapActions(["getAppointments", "viewMore", "sortbyDate", "showMenu"]),
+    ...mapActions(["getAppointments", "viewMore", "sortbyDate", "showMenu", "getUpdatingAdress"]),
     isPassive (index) {
         const item = this.Appointments[index]
         const date = new Date().toISOString()
@@ -192,6 +191,10 @@ export default {
       const res = await this.api.filterAgents(data);
       console.log(res);
     },
+    async onUpdate(item) {
+        await this.getUpdatingAdress(item["fields"].appointment_postcode)
+        this.$router.push({name: 'CreateAppointment', params: {item}})       
+    }
   },
 };
 </script>

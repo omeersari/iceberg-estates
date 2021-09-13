@@ -5,13 +5,14 @@
       :contacts="Contacts"
       :postCode="postCode"
       @appCreated="appCreated"
+      :updatingItem="updatingItem"
       ref="form"
     />
     <div class="map">
       <GoogleMap
         @getDuration="getDuration"
         :travelMode="travelMode"
-        @markerSelected="showTravelMode = true"
+        @markerSelected="markerSelected"
         :showMarker="showMarker"
         @getDestination="getDestination"
       />
@@ -66,14 +67,25 @@ export default {
       postCode: "",
       depTime: "",
       arrTime: "",
+      updatingItem: "",
     };
   },
 
-  created() {
+  async created() {
     this.$store.dispatch("showMenu", false);
     this.getAgents();
     this.getContacts();
     this.$store.dispatch("createError", "")
+    
+    // if update page get item and postcode
+    this.updatingItem = this.$route.params.item
+    if (this.updatingItem) {
+      if (!this.$store.getters.UpdatingAdress) {
+        this.postCode = "Post Code Not Found"
+      }else {
+        this.postCode = this.updatingItem['fields'].appointment_postcode
+      }
+    }
   },
   methods: {
     ...mapActions(["getAgents", "getContacts"]),
@@ -93,7 +105,9 @@ export default {
         this.$store.dispatch('createError', "Post Code not found. Please select another location")
       }
     },
-
+    markerSelected(bool) {
+      this.showTravelMode = bool
+    },
     appCreated(data) {
       let appTime = data["fields"].appointment_date;
       const depTime = moment(appTime)

@@ -27,7 +27,6 @@ export default MapElementFactory({
       () => [this.origin, this.destination, this.travelMode],
       () => {
         let { origin, destination, travelMode } = this;
-        console.log(origin, destination, travelMode)
         if (!origin || !destination || !travelMode) {
           // clear route
           return

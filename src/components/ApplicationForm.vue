@@ -61,7 +61,7 @@
         >
       </div>
       <div class="user-input">
-        <button>CREATE</button>
+        <button :class="[updatingItem ? 'UPDATE': 'CREATE']">{{updatingItem ? 'UPDATE': 'CREATE' }}</button>
       </div>
     </form>
     <div v-if="error" class="error">
@@ -75,8 +75,6 @@ import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
 
-
-const mask = "DD-MM-YYYY HH:MM";
 
 export default {
   components: {
@@ -93,6 +91,10 @@ export default {
     contacts: {
       type: Array,
     },
+    updatingItem: {
+      type: Object,
+      required: false,
+    }
   },
   data() {
     return {
@@ -103,10 +105,14 @@ export default {
         contact: "",
         agent: "",
       },
-      masks: {
-        input: mask,
-      },
     };
+  },
+  created () {
+    if (this.updatingItem) {
+      this.dataForm.date = this.updatingItem["fields"].appointment_date
+      this.dataForm.contact = this.updatingItem['fields'].contact_id[0]
+      this.dataForm.agent = this.updatingItem['fields'].agent_id[0]
+    }
   },
   computed: {
     error () {
