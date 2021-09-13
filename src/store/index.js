@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import api from "../api/service";
+import PostCodeApi from "../api/postcodes";
+import createPersistedState from 'vuex-persistedstate' // create a local storage
 
 Vue.use(Vuex);
 
@@ -15,6 +17,7 @@ export default new Vuex.Store({
     contacts: [],
     agentsTimes: [],
     error: "",
+    updatingAdress: null,
   },
   getters: {
     AllAppointments: (state) => state.allAppointments,
@@ -26,6 +29,7 @@ export default new Vuex.Store({
     Contacts: (state) => state.contacts,
     AgentsTimes: (state) => state.agentsTimes,
     Error: (state) => state.error,
+    UpdatingAdress: (state) => state.updatingAdress
   },
   mutations: {
     GET_ALL_APPOINMENTS(state, payload) {
@@ -85,6 +89,19 @@ export default new Vuex.Store({
     },
     MAKE_ERROR(state, payload) {
       state.error = payload
+    },
+    GET_UPDATE_ADRESS(state, payload) {
+      if (payload.status == 200) {
+        const data = payload.result
+      state.updatingAdress = {
+        lat: data.latitude,
+        lng: data.longitude
+      }
+      }
+        
+    },
+    CLEAR_UPDATE_ADDRESS(state) {
+      state.updatingAdress = null
     }
   },
   actions: {
@@ -116,9 +133,21 @@ export default new Vuex.Store({
       const response = await api.getContacts();
       commit("GET_CONTACTS", response)
     },
+    async getUpdatingAdress({commit}, postcode) {
+        try {
+          const response = await PostCodeApi.getPostCode(postcode)
+          commit("GET_UPDATE_ADRESS", response) 
+        } catch (error) {
+          commit("GET_UPDATE_ADRESS", error) 
+        }
+        
+    },
+    clearUpdateAddress({commit}) {
+      commit("CLEAR_UPDATE_ADDRESS")
+    },
     createError({commit}, err) {
       commit("MAKE_ERROR", err )
     }
   },
-  modules: {},
+  plugins: [createPersistedState()]
 });

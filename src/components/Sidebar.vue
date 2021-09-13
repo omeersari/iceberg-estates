@@ -12,7 +12,8 @@
       <router-link class="menu-link" to="/createappointment"
         >randevu oluştur</router-link
       >
-      <router-link class="menu-link" to="/users">kullanıcı oluştur</router-link>
+      <router-link class="menu-link" to="/createcontact">CONTACT oluştur</router-link>
+      <router-link class="menu-link" to="/createagent">AGENT oluştur</router-link>
     </div>
   </div>
 </template>

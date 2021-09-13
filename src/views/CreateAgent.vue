@@ -44,7 +44,8 @@ export default {
         this.resetForm()
       },
       resetForm() {
-
+        this.agent_name = "",
+        this.agent_surname = ""
       }
     }
 

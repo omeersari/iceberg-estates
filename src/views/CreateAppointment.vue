@@ -73,8 +73,6 @@ export default {
 
   async created() {
     this.$store.dispatch("showMenu", false);
-    this.getAgents();
-    this.getContacts();
     this.$store.dispatch("createError", "")
     
     // if update page get item and postcode
