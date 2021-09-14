@@ -70,6 +70,9 @@ export default {
   createAppointment(data) {
     return this.execute("post", "Appointments", data);
   },
+  updateAppointment(data) {
+    return this.execute("patch", "Appointments", data);
+  },
   createAgent(data) {
     return this.execute(
       "post",

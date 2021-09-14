@@ -73,15 +73,15 @@ export default {
 
   async created() {
     this.$store.dispatch("showMenu", false);
-    this.$store.dispatch("createError", "")
-    
+    this.$store.dispatch("createError", "");
+
     // if update page get item and postcode
-    this.updatingItem = this.$route.params.item
+    this.updatingItem = this.$route.params.item;
     if (this.updatingItem) {
       if (!this.$store.getters.UpdatingAdress) {
-        this.postCode = "Post Code Not Found"
-      }else {
-        this.postCode = this.updatingItem['fields'].appointment_postcode
+        this.postCode = "Post Code Not Found";
+      } else {
+        this.postCode = this.updatingItem["fields"].appointment_postcode;
       }
     }
   },
@@ -97,17 +97,29 @@ export default {
       const res = await this.PostCodeApi.getNearestPostCode(marker);
       if (res.status == 200 && res.result) {
         this.postCode = res.result[0].postcode;
-        this.$store.dispatch('createError', "");
+        this.$store.dispatch("createError", "");
       } else {
         this.postCode = "";
-        this.$store.dispatch('createError', "Post Code not found. Please select another location")
+        this.$store.dispatch(
+          "createError",
+          "Post Code not found. Please select another location"
+        );
       }
     },
     markerSelected(bool) {
-      this.showTravelMode = bool
+      this.showTravelMode = bool;
     },
-    appCreated(data) {
-      let appTime = data["fields"].appointment_date;
+    appCreated(data, type) {
+      const newData = data.records[0]
+      // Deleting previous date and time for only updates.
+      if (type == 'update') {
+        const item = this.AgentsTimes.find(el => el.id == newData.id)
+        if (item) {
+          const index = this.AgentsTimes.indexOf(item)
+          this.$store.dispatch("deleteObj", index)
+        }
+      }
+      let appTime = newData["fields"].appointment_date;
       const depTime = moment(appTime)
         .subtract(this.durSecond, "seconds")
         .toDate();
@@ -117,18 +129,27 @@ export default {
         .toDate();
       this.depTime = moment(depTime).format("DD/MM/YYYY HH:mm");
       this.arrTime = moment(arrTime).format("DD/MM/YYYY HH:mm");
-      const result = this.$control.controlTime(data, this.AgentsTimes);
+      const result = this.$control.controlTime(newData, this.AgentsTimes);
       if (result) {
         this.AgentsTimes.push({
-          agent_id: data["fields"].agent_id[0],
-          busyTime: data["fields"].appointment_date,
+          agent_id: newData["fields"].agent_id[0],
+          busyTime: newData["fields"].appointment_date,
           depTime,
           arrTime,
         });
         this.$refs.form.resetForm();
         this.postCode = "";
+        if (type == "create") {
+          this.api.createAppointment(data);
+        } else {
+          console.log(data)
+          this.api.updateAppointment(data);
+        }
       } else {
-        this.$store.dispatch('createError', "This agent is not avaliable during this time. Please select another date or time")
+        this.$store.dispatch(
+          "createError",
+          "This agent is not avaliable during this time. Please select another date or time"
+        );
       }
     },
   },

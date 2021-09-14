@@ -18,6 +18,7 @@ export default new Vuex.Store({
     agentsTimes: [],
     error: "",
     updatingAdress: null,
+    loading: false,
   },
   getters: {
     AllAppointments: (state) => state.allAppointments,
@@ -71,20 +72,21 @@ export default new Vuex.Store({
       })
       state.contacts = newContacts;
     },
-    AGENTS_TIME(state, payload) {
+    AGENTS_TIME(state) {
       if (state.allAppointments) {
-        payload.records.forEach(element => {
-          element['fields'].Appointments.forEach(appointment => {
-            const app = state.allAppointments.find(el => el.id == appointment)
-            const time = app['fields'].appointment_date
+        state.allAppointments.forEach(item => {
+          const myObj = state.agentsTimes.find(obj => obj.id == item.id)
+          if (!myObj) {
             state.agentsTimes.push(
               {
-                agent_id : element.id,
-                busyTime : time
+                id: item.id,
+                agent_id : item["fields"].agent_id[0],
+                busyTime : item["fields"].appointment_date
               }
             )
-          })
-        });
+          }
+          
+        })
       }
     },
     MAKE_ERROR(state, payload) {
@@ -102,12 +104,19 @@ export default new Vuex.Store({
     },
     CLEAR_UPDATE_ADDRESS(state) {
       state.updatingAdress = null
+    },
+    SET_LOADING(state, payload) {
+      state.loading = payload
+    },
+    DELETE_OBJ(state, index) {
+      state.agentsTimes.splice(index, 1)
     }
   },
   actions: {
     async getAllAppointments({commit}) {
       const response = await api.getAllAppointments();
       commit("GET_ALL_APPOINMENTS", response)
+      commit("AGENTS_TIME")
     },
     async getAppointments({ commit }) {
       const response = await api.getAppointments();
@@ -127,7 +136,6 @@ export default new Vuex.Store({
     async getAgents({ commit }) {
       const response = await api.getAgents();
       commit("GET_AGENTS", response);
-      commit("AGENTS_TIME", response)
     },
     async getContacts({commit}) {
       const response = await api.getContacts();
@@ -147,6 +155,12 @@ export default new Vuex.Store({
     },
     createError({commit}, err) {
       commit("MAKE_ERROR", err )
+    },
+    setLoading({commit}, newVal) {
+      commit("SET_LOADING", newVal)
+    },
+    deleteObj({commit}, index) {
+      commit("DELETE_OBJ", index)
     }
   },
   plugins: [createPersistedState()]

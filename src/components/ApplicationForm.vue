@@ -4,12 +4,11 @@
     <form class="application-form">
       <div class="user-input">
         <my-label :label="'Post Code'" />
-        <input type="text" disabled v-model="postCode" />
+        <input type="text" class="primary" disabled v-model="postCode" />
       </div>
       <div class="user-input">
         <my-label :label="'Date'" />
         <vc-date-picker
-          class="inline-block h-full"
           v-model="dataForm.date"
           mode="dateTime"
           :masks="masks"
@@ -21,7 +20,7 @@
           <template v-slot="{ inputValue, inputEvents }">
             <input
               placeholder="Pick a Date"
-              class="bg-white border px-2 py-1 rounded"
+              class="primary"
               :value="inputValue"
               v-on="inputEvents"
             />
@@ -62,11 +61,15 @@
         >
       </div>
       <div class="user-input">
-        <submit :submit="createApplication" :buttonText="[updatingItem ? 'UPDATE': 'CREATE']" :class="[updatingItem ? 'UPDATE': 'CREATE']" />
+        <submit
+          :submit="createApplication"
+          :buttonText="updatingItem ? 'UPDATE' : 'CREATE'"
+          :className="'secondary'"
+        />
       </div>
     </form>
     <div v-if="error" class="error">
-      {{error}}
+      {{ error }}
     </div>
   </div>
 </template>
@@ -75,13 +78,12 @@
 import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
-import Submit from "./Submit.vue"
-
+import Submit from "./Submit.vue";
 
 export default {
   components: {
     MyLabel,
-    Submit
+    Submit,
   },
   props: {
     agents: {
@@ -97,7 +99,7 @@ export default {
     updatingItem: {
       type: Object,
       required: false,
-    }
+    },
   },
   data() {
     return {
@@ -109,42 +111,69 @@ export default {
         agent: "",
       },
       masks: {
-      inputDateTime24hr: 'DD-MM-YYYY HH:mm',
-    }
+        inputDateTime24hr: "DD-MM-YYYY HH:mm",
+      },
     };
   },
-  created () {
+  created() {
     if (this.updatingItem) {
-      this.dataForm.date = this.updatingItem["fields"].appointment_date
-      this.dataForm.contact = this.updatingItem['fields'].contact_id[0]
-      this.dataForm.agent = this.updatingItem['fields'].agent_id[0]
+      this.dataForm.date = this.updatingItem["fields"].appointment_date;
+      this.dataForm.contact = this.updatingItem["fields"].contact_id[0];
+      this.dataForm.agent = this.updatingItem["fields"].agent_id[0];
     }
   },
   computed: {
-    error () {
-      return this.$store.getters.Error
-    }
+    error() {
+      return this.$store.getters.Error;
+    },
   },
   methods: {
     async createApplication() {
-      if (this.postCode && this.dataForm.date && this.dataForm.contact && this.dataForm.agent) {
-        this.$store.dispatch("createError", "")
-        const data = {
-          fields: {
-            appointment_date: this.dataForm.date,
-            appointment_postcode: this.postCode,
-            contact_id: [this.dataForm.contact],
-            agent_id: [this.dataForm.agent],
-          },
-        };
-        this.$emit("appCreated", data);
-        
-        //this.$router.go(0); // hayırlı olsun
-      }else {
-        this.$store.dispatch("createError","Please make sure all fields are filled")
+      if (
+        this.postCode &&
+        this.dataForm.date &&
+        this.dataForm.contact &&
+        this.dataForm.agent
+      ) {
+        if (!this.updatingItem) {
+          this.$store.dispatch("createError", "");
+          const data = {
+            records: [
+              {
+                fields: {
+                  appointment_date: this.dataForm.date,
+                  appointment_postcode: this.postCode,
+                  contact_id: [this.dataForm.contact],
+                  agent_id: [this.dataForm.agent],
+                },
+              },
+            ],
+          };
+          const type = "create";
+          this.$emit("appCreated", data, type);
+        } else {
+          const data = {
+            records: [
+              {
+                id: this.updatingItem.id,
+                fields: {
+                  appointment_date: this.dataForm.date,
+                  appointment_postcode: this.postCode,
+                  contact_id: [this.dataForm.contact],
+                  agent_id: [this.dataForm.agent],
+                },
+              },
+            ],
+          };
+          const type = "update";
+          this.$emit("appCreated", data, type);
+        }
+      } else {
+        this.$store.dispatch(
+          "createError",
+          "Please make sure all fields are filled"
+        );
       }
-
-      //await this.api.createAppointment(data)
     },
     resetForm() {
       this.dataForm = {
