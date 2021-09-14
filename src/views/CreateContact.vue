@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <form @submit.prevent="createContact()" class="application-form">
+    <form class="application-form">
       <div class="user-input">
         <my-label :label="'Name'" />
         <input type="text" v-model="contactForm.name" />
@@ -17,7 +17,7 @@
         <my-label :label="'Email'" />
         <input type="email" v-model="contactForm.email" />
       </div>
-      <button> Create Contact</button>
+      <submit :submit="createContact" :buttonText="'Create Contact'" />
     </form>
   </div>
 </template>
@@ -26,10 +26,12 @@
 <script>
 import MyLabel from "../components/MyLabel.vue";
 import api from "../api/service"
+import Submit from "../components/Submit.vue"
 
 export default {
     components: {
-        MyLabel
+        MyLabel,
+        Submit
     },
     data () {
         return {
@@ -46,13 +48,14 @@ export default {
         async createContact() {
             const data = {
                 fields: {
-                    contact_name : "",
-                    contacT_surname: "",
-                    contact_email: "",
-                    contact_phone: ""
+                    contact_name : this.contactForm.name,
+                    contact_surname: this.contactForm.surname,
+                    contact_email: this.contactForm.email,
+                    contact_phone: this.contactForm.phone
                 }
             }
-            await this.api.createContact(data) 
+            //await this.api.createContact(data) 
+            console.log(data)
             this.resetForm()
         },
         resetForm() {

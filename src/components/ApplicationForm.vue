@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <h2>Create application</h2>
-    <form class="application-form" @submit.prevent="createApplication">
+    <form class="application-form">
       <div class="user-input">
         <my-label :label="'Post Code'" />
         <input type="text" disabled v-model="postCode" />
@@ -62,7 +62,7 @@
         >
       </div>
       <div class="user-input">
-        <button :class="[updatingItem ? 'UPDATE': 'CREATE']">{{updatingItem ? 'UPDATE': 'CREATE' }}</button>
+        <submit :submit="createApplication" :buttonText="[updatingItem ? 'UPDATE': 'CREATE']" :class="[updatingItem ? 'UPDATE': 'CREATE']" />
       </div>
     </form>
     <div v-if="error" class="error">
@@ -75,11 +75,13 @@
 import MyLabel from "./MyLabel.vue";
 import api from "../api/service";
 import moment from "moment";
+import Submit from "./Submit.vue"
 
 
 export default {
   components: {
     MyLabel,
+    Submit
   },
   props: {
     agents: {

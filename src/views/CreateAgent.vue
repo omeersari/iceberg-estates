@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <form @submit.prevent="createAgent()" class="application-form">
+    <form class="application-form">
       <div class="user-input">
         <my-label :label="'Name'" />
         <input type="text" v-model="agent_name" />
@@ -9,7 +9,7 @@
         <my-label :label="'Surname'" />
         <input type="text" v-model="agent_surname" />
       </div>
-      <button>Create Agent</button>
+      <submit :submit="createAgent" :buttonText="'Create Agent'" />
     </form>
     
   </div>
@@ -19,10 +19,12 @@
 <script>
 import MyLabel from "../components/MyLabel.vue";
 import api from "../api/service"
+import Submit from "../components/Submit.vue"
 
 export default {
     components: {
-        MyLabel
+        MyLabel,
+        Submit
     },
     data () {
       return {
