@@ -21,16 +21,15 @@ export default MapElementFactory({
   afterCreate(directionsRenderer) {
     let directionsService = new window.google.maps.DirectionsService();
     // let directionsDisplay = new window.google.maps.DirectionsRenderer();
-    
-    
+
     this.$watch(
       () => [this.origin, this.destination, this.travelMode],
       () => {
         let { origin, destination, travelMode } = this;
         if (!origin || !destination || !travelMode) {
           // clear route
-          return
-          }
+          return;
+        }
 
         directionsService.route(
           {

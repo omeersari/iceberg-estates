@@ -1,8 +1,5 @@
 <template>
-  <button
-    :class="className"
-    @click="onSubmit"
-  >
+  <button :class="className" @click="onSubmit">
     {{ buttonText }}
   </button>
 </template>
@@ -12,9 +9,9 @@ export default {
   props: ["buttonText", "submit", "className"],
   methods: {
     onSubmit(e) {
-        e.preventDefault();
-        this.submit();
-    }
-  }
+      e.preventDefault();
+      this.submit();
+    },
+  },
 };
 </script>

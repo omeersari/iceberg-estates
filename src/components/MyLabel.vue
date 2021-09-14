@@ -1,4 +1,3 @@
 <template functional>
-    <label> {{ props.label }}</label>
+  <label> {{ props.label }}</label>
 </template>
-

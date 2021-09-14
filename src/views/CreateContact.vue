@@ -30,7 +30,6 @@
   </div>
 </template>
 
-
 <script>
 import MyLabel from "../components/MyLabel.vue";
 import api from "../api/service";
@@ -52,7 +51,7 @@ export default {
       },
     };
   },
-  created () {
+  created() {
     this.$store.dispatch("showMenu", false);
   },
   computed: {
@@ -96,7 +95,7 @@ export default {
     },
   },
   beforeDestroy() {
-    this.$store.dispatch('createError', '')
-  }
+    this.$store.dispatch("createError", "");
+  },
 };
 </script>

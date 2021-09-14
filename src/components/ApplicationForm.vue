@@ -187,7 +187,7 @@ export default {
     },
   },
   beforeDestroy() {
-    this.$store.dispatch('createError', '')
-  }
+    this.$store.dispatch("createError", "");
+  },
 };
 </script>

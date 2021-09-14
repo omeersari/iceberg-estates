@@ -21,7 +21,7 @@ export const control = {
           // suitable for new appointments
           return true;
         }
-      } // For previous appointments 
+      } // For previous appointments
       else {
         const busydate = moment(element.busyTime).toDate();
         const depTime = moment(busydate).subtract(1, "hours").toDate();
@@ -35,6 +35,6 @@ export const control = {
         }
       }
     });
-    return result
-},
+    return result;
+  },
 };

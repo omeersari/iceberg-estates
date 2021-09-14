@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import api from "../api/service";
 import PostCodeApi from "../api/postcodes";
-import createPersistedState from 'vuex-persistedstate' // create a local storage
+import createPersistedState from "vuex-persistedstate"; // create a local storage
 
 Vue.use(Vuex);
 
@@ -30,11 +30,11 @@ export default new Vuex.Store({
     Contacts: (state) => state.contacts,
     AgentsTimes: (state) => state.agentsTimes,
     Error: (state) => state.error,
-    UpdatingAdress: (state) => state.updatingAdress
+    UpdatingAdress: (state) => state.updatingAdress,
   },
   mutations: {
     GET_ALL_APPOINMENTS(state, payload) {
-      state.allAppointments = payload.records
+      state.allAppointments = payload.records;
     },
     GET_APPOINTMENTS(state, payload) {
       state.appointments = payload.records;
@@ -62,63 +62,64 @@ export default new Vuex.Store({
       state.agents = payload.records;
     },
     GET_CONTACTS(state, payload) {
-      const flags = new Set()
-      const newContacts = payload.records.filter(item => {
+      const flags = new Set();
+      const newContacts = payload.records.filter((item) => {
         if (flags.has(item["fields"].contact_phone)) {
           return false;
         }
-        flags.add(item["fields"].contact_phone)
+        flags.add(item["fields"].contact_phone);
         return true;
-      })
+      });
       state.contacts = newContacts;
     },
     AGENTS_TIME(state) {
       if (state.allAppointments) {
-        state.allAppointments.forEach(item => {
-          const myObj = state.agentsTimes.find(obj => obj.id == item.id)
+        state.allAppointments.forEach((item) => {
+          const myObj = state.agentsTimes.find((obj) => obj.id == item.id);
           if (!myObj) {
-            state.agentsTimes.push(
-              {
-                id: item.id,
-                agent_id : item["fields"].agent_id[0],
-                busyTime : item["fields"].appointment_date
-              }
-            )
+            state.agentsTimes.push({
+              id: item.id,
+              agent_id: item["fields"].agent_id[0],
+              busyTime: item["fields"].appointment_date,
+            });
           }
-        })
+        });
       }
     },
     MAKE_ERROR(state, payload) {
-      state.error = payload
+      state.error = payload;
     },
     GET_UPDATE_ADRESS(state, payload) {
       if (payload.status == 200) {
-        const data = payload.result
-      state.updatingAdress = {
-        lat: data.latitude,
-        lng: data.longitude
+        const data = payload.result;
+        state.updatingAdress = {
+          lat: data.latitude,
+          lng: data.longitude,
+        };
       }
-      }
-        
     },
     CLEAR_UPDATE_ADDRESS(state) {
-      state.updatingAdress = null
+      state.updatingAdress = null;
     },
     SET_LOADING(state, payload) {
-      state.loading = payload
+      state.loading = payload;
     },
     DELETE_OBJ(state, index) {
-      state.agentsTimes.splice(index, 1)
+      state.agentsTimes.splice(index, 1);
     },
     FILTER_AGENT(state, payload) {
-      state.appointments = state.allAppointments.filter(el => el['fields'].agent_name[0] + " " + el['fields'].agent_surname[0] == payload)
-    }
+      state.appointments = state.allAppointments.filter(
+        (el) =>
+          el["fields"].agent_name[0] + " " + el["fields"].agent_surname[0] ==
+          payload
+      );
+    },
   },
   actions: {
-    async getAllAppointments({commit}) {
+    async getAllAppointments({ commit }) {
       const response = await api.getAllAppointments();
-      commit("GET_ALL_APPOINMENTS", response)
-      commit("AGENTS_TIME")
+      commit("GET_ALL_APPOINMENTS", response);
+      commit("AGENTS_TIME");
     },
     async getAppointments({ commit }) {
       const response = await api.getAppointments();
@@ -139,31 +140,30 @@ export default new Vuex.Store({
       const response = await api.getAgents();
       commit("GET_AGENTS", response);
     },
-    async getContacts({commit}) {
+    async getContacts({ commit }) {
       const response = await api.getContacts();
-      commit("GET_CONTACTS", response)
+      commit("GET_CONTACTS", response);
     },
-    async getUpdatingAdress({commit}, postcode) {
-        try {
-          const response = await PostCodeApi.getPostCode(postcode)
-          commit("GET_UPDATE_ADRESS", response) 
-        } catch (error) {
-          commit("GET_UPDATE_ADRESS", error) 
-        }
-        
+    async getUpdatingAdress({ commit }, postcode) {
+      try {
+        const response = await PostCodeApi.getPostCode(postcode);
+        commit("GET_UPDATE_ADRESS", response);
+      } catch (error) {
+        commit("GET_UPDATE_ADRESS", error);
+      }
     },
-    clearUpdateAddress({commit}) {
-      commit("CLEAR_UPDATE_ADDRESS")
+    clearUpdateAddress({ commit }) {
+      commit("CLEAR_UPDATE_ADDRESS");
     },
-    createError({commit}, err) {
-      commit("MAKE_ERROR", err )
+    createError({ commit }, err) {
+      commit("MAKE_ERROR", err);
     },
-    setLoading({commit}, newVal) {
-      commit("SET_LOADING", newVal)
+    setLoading({ commit }, newVal) {
+      commit("SET_LOADING", newVal);
     },
-    deleteObj({commit}, index) {
-      commit("DELETE_OBJ", index)
+    deleteObj({ commit }, index) {
+      commit("DELETE_OBJ", index);
     },
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState()],
 });

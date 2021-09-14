@@ -2,10 +2,24 @@
   <div class="page">
     <div class="top">
       <form @submit.prevent="filterAgents">
-      <input type="text" placeholder="Filter by agent name" v-model="filter" class="mr-5" />
-      <submit :buttonText="'Filter'" :submit="filterAgents" :className="'tertiary'" class="mr-5"/>
-    </form>
-    <submit :buttonText="'Reset'" :submit="resetFilter" :className="'tertiary'"/>
+        <input
+          type="text"
+          placeholder="Filter by agent name"
+          v-model="filter"
+          class="mr-5"
+        />
+        <submit
+          :buttonText="'Filter'"
+          :submit="filterAgents"
+          :className="'tertiary'"
+          class="mr-5"
+        />
+      </form>
+      <submit
+        :buttonText="'Reset'"
+        :submit="resetFilter"
+        :className="'tertiary'"
+      />
     </div>
     <div class="sort-date">
       <button @click="sortDates()" class="tertiary">Sort By Date</button>
@@ -23,7 +37,12 @@
         <div>Actions</div>
       </div>
       <div v-if="Appointments.length == 0" class="error">No records found</div>
-      <div v-for="(item, index) in Appointments" :key="index" class="app-table" :class="isPassive(index) ? 'isPassive' : ''">
+      <div
+        v-for="(item, index) in Appointments"
+        :key="index"
+        class="app-table"
+        :class="isPassive(index) ? 'isPassive' : ''"
+      >
         <div class="item">
           <div class="responsive-label">ID:</div>
           <div>{{ index + 1 }}</div>
@@ -31,7 +50,9 @@
         <div class="item">
           <div class="responsive-label">App. Date</div>
           <div>
-            {{ moment(item["fields"].appointment_date).format("DD-MM-YYYY HH:mm") }}
+            {{
+              moment(item["fields"].appointment_date).format("DD-MM-YYYY HH:mm")
+            }}
           </div>
         </div>
         <div class="item">
@@ -86,29 +107,34 @@
         </div>
         <div class="item">
           <div class="responsive-label">Action:</div>
-          <div><button class="tertiary" :disabled="isPassive(index)" @click="onUpdate(item)">EDIT</button></div>
+          <div>
+            <button
+              class="tertiary"
+              :disabled="isPassive(index)"
+              @click="onUpdate(item)"
+            >
+              EDIT
+            </button>
+          </div>
         </div>
       </div>
     </div>
     <div class="f-center">
       <button class="primary" @click="viewmore" ref="viewmore">
-      View More
-    </button>
+        View More
+      </button>
     </div>
-    
   </div>
 </template>
 
 <script>
-
 import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
-import Submit from '../components/Submit.vue'
-
+import Submit from "../components/Submit.vue";
 
 export default {
   components: {
-    Submit
+    Submit,
   },
   data() {
     return {
@@ -130,15 +156,21 @@ export default {
     ...mapGetters(["Appointments", "Len", "Offset", "Error"]),
   },
   methods: {
-    ...mapActions(["getAppointments", "viewMore", "sortbyDate", "showMenu", "getUpdatingAdress"]),
-    isPassive (index) {
-        const item = this.Appointments[index]
-        const date = new Date().toISOString()
-        if (date > item["fields"].appointment_date ) {
-          return true
-        } else {
-          return false
-        }
+    ...mapActions([
+      "getAppointments",
+      "viewMore",
+      "sortbyDate",
+      "showMenu",
+      "getUpdatingAdress",
+    ]),
+    isPassive(index) {
+      const item = this.Appointments[index];
+      const date = new Date().toISOString();
+      if (date > item["fields"].appointment_date) {
+        return true;
+      } else {
+        return false;
+      }
     },
     async viewmore(event) {
       const target = event.target || event.srcElement;
@@ -164,39 +196,41 @@ export default {
     },
     async sortDates(par) {
       if (this.filter) {
-        this.Appointments.sort(function(a,b){
-          return new Date(b["fields"].appointment_date) - new Date(a["fields"].appointment_date)
-        })
+        this.Appointments.sort(function (a, b) {
+          return (
+            new Date(b["fields"].appointment_date) -
+            new Date(a["fields"].appointment_date)
+          );
+        });
       } else {
-      this.sortClicked = true;
-      this.$refs["viewmore"].innerText = "View More";
-      this.$refs.viewmore.disabled = false;
-      if (this.sort) {
-        this.sorted = par = "desc";
-        this.sort = !this.sort;
-      } else {
-        this.sorted = par = "asc";
-        this.sort = !this.sort;
-      }
-      const data = {
-        len: this.Len,
-        offset: this.Offset,
-        par,
-      };
-      await this.sortbyDate(data);
-      if (this.Offset == "") {
-        this.$refs["viewmore"].innerText = "End of Feed";
-        this.$refs.viewmore.disabled = true;
-      } else {
+        this.sortClicked = true;
         this.$refs["viewmore"].innerText = "View More";
         this.$refs.viewmore.disabled = false;
+        if (this.sort) {
+          this.sorted = par = "desc";
+          this.sort = !this.sort;
+        } else {
+          this.sorted = par = "asc";
+          this.sort = !this.sort;
+        }
+        const data = {
+          len: this.Len,
+          offset: this.Offset,
+          par,
+        };
+        await this.sortbyDate(data);
+        if (this.Offset == "") {
+          this.$refs["viewmore"].innerText = "End of Feed";
+          this.$refs.viewmore.disabled = true;
+        } else {
+          this.$refs["viewmore"].innerText = "View More";
+          this.$refs.viewmore.disabled = false;
+        }
       }
-      }
-      
     },
-    
+
     filterAgents() {
-      this.$store.commit('FILTER_AGENT', this.filter)
+      this.$store.commit("FILTER_AGENT", this.filter);
       this.$refs["viewmore"].innerText = "End of Feed";
       this.$refs.viewmore.disabled = true;
       /*
@@ -216,18 +250,18 @@ export default {
       };
       const res = await this.api.filterAgents(data);
       console.log(res);
-    */},
+    */
+    },
     async onUpdate(item) {
-        await this.getUpdatingAdress(item["fields"].appointment_postcode)
-        this.$router.push({name: 'CreateAppointment', params: {item}})       
+      await this.getUpdatingAdress(item["fields"].appointment_postcode);
+      this.$router.push({ name: "CreateAppointment", params: { item } });
     },
     async resetFilter() {
-      await this.getAppointments()
+      await this.getAppointments();
       this.$refs["viewmore"].innerText = "View More";
       this.$refs.viewmore.disabled = false;
-      this.filter = ""
-    }
-
+      this.filter = "";
+    },
   },
 };
 </script>

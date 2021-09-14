@@ -36,7 +36,9 @@ const routes = [
     path: "/createcontact",
     name: "CreateContact",
     component: () =>
-      import(/* webpackChunkName: "CreateContact" */ "../views/CreateContact.vue"),
+      import(
+        /* webpackChunkName: "CreateContact" */ "../views/CreateContact.vue"
+      ),
   },
   {
     path: "/createagent",

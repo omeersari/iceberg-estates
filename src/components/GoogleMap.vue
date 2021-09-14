@@ -55,7 +55,6 @@ export default {
   },
   computed: {
     google: gmapApi,
-    
   },
   props: {
     travelMode: {
@@ -69,21 +68,21 @@ export default {
     },
     updatingItem: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   mounted() {
-    this.showOurLocation()
+    this.showOurLocation();
     if (this.$store.getters.UpdatingAdress && this.updatingItem) {
       setTimeout(() => {
-        this.newMarker = this.$store.getters.UpdatingAdress
+        this.newMarker = this.$store.getters.UpdatingAdress;
         this.$emit("markerSelected", true);
-        this.calculateDistance()
-      }, 500)
+        this.calculateDistance();
+      }, 500);
     }
   },
-  beforeDestroy () {
-    this.$store.dispatch("clearUpdateAddress")
+  beforeDestroy() {
+    this.$store.dispatch("clearUpdateAddress");
     this.$emit("markerSelected", false);
   },
   methods: {
@@ -114,7 +113,6 @@ export default {
         this.duration = res.rows[0].elements[0].duration;
         this.$emit("getDuration", this.distance, this.duration);
       }
-      
     },
   },
   watch: {

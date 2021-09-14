@@ -8,12 +8,18 @@
     <div class="logo">ICEBERG ESTATES</div>
     <div class="menu" :class="ShowMenu ? 'responsive-menu' : ''">
       <router-link class="menu-link" to="/dashboard">Dashboard</router-link>
-      <router-link class="menu-link" to="/appointments">Appointments</router-link>
+      <router-link class="menu-link" to="/appointments"
+        >Appointments</router-link
+      >
       <router-link class="menu-link" to="/createappointment"
         >Create Appointment</router-link
       >
-      <router-link class="menu-link" to="/createcontact">Create Contact</router-link>
-      <router-link class="menu-link" to="/createagent">Create Agent</router-link>
+      <router-link class="menu-link" to="/createcontact"
+        >Create Contact</router-link
+      >
+      <router-link class="menu-link" to="/createagent"
+        >Create Agent</router-link
+      >
     </div>
   </div>
 </template>

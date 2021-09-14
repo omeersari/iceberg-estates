@@ -22,7 +22,7 @@ export default {
     return this.execute(
       "get",
       "Appointments?filterByFormula=NOT%28%7Bcontact_name%7D%20%3D%20%27%27%29"
-    )
+    );
   },
   getAppointments() {
     return this.execute(
@@ -74,15 +74,9 @@ export default {
     return this.execute("patch", "Appointments", data);
   },
   createAgent(data) {
-    return this.execute(
-      "post",
-      "Agents", data
-    );
+    return this.execute("post", "Agents", data);
   },
   createContact(data) {
-    return this.execute(
-      "post",
-      "Contacts", data
-    );
-  }
+    return this.execute("post", "Contacts", data);
+  },
 };

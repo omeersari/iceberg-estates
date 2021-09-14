@@ -29,6 +29,10 @@
 .size-4 {
     display: grid;
     grid-template-columns: minmax(50px, 100px) 2fr 1fr 1fr;
+
+    @media (max-width: $mobileBreakpointOneA) {
+        grid-template-columns: 1fr;
+    }
 }
 
 .size-3 {
