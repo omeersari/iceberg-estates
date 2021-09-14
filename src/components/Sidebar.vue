@@ -5,7 +5,7 @@
       <div></div>
       <div></div>
     </div>
-    <div class="logo">ICEBERG ESTATES</div>
+    <div class="logo" @click="$router.push('/dashboard')">ICEBERG ESTATES</div>
     <div class="menu" :class="ShowMenu ? 'responsive-menu' : ''">
       <router-link class="menu-link" to="/dashboard">Dashboard</router-link>
       <router-link class="menu-link" to="/appointments"

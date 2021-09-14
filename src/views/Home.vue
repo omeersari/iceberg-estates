@@ -2,14 +2,20 @@
   <div class="homepage">
     <div class="login-card">
       <div class="logo">
-        <p>ICEBERG ESTATES</p>
+        <p class="f-center">ICEBERG ESTATES</p>
       </div>
       <div class="login-form">
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
-        <button @click="gotoHomepage">LOGIN</button>
+        <input class="primary" type="text" placeholder="Username" v-model="form.username" />
+        <input class="primary" type="password" placeholder="Password" v-model.number="form.password"/>
+        <div class="f-center">
+          <button class="secondary" @click="gotoHomepage">LOGIN</button>
+        </div>
       </div>
+      <div class="error mt-20" v-if="this.$store.getters.Error">
+      {{this.$store.getters.Error}}
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -18,10 +24,27 @@
 
 export default {
   name: "Home",
+  data() {
+    return {
+      form: {
+        username: "",
+        password: null,
+      }
+    }
+  },
   methods: {
     gotoHomepage() {
-      this.$router.push("/dashboard");
+      if (this.form.username == this.$store.getters.Account.username && this.form.password == this.$store.getters.Account.password) {
+        this.$store.dispatch('createError', '')
+        this.$router.push("/dashboard");
+      } else {
+        this.$store.dispatch('createError', 'Username or password is incorrect.')
+      }
     },
   },
+  created() {
+    this.$store.dispatch('createError', '')
+  }
 };
 </script>
+

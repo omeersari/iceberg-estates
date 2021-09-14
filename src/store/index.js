@@ -19,6 +19,10 @@ export default new Vuex.Store({
     error: "",
     updatingAdress: null,
     loading: false,
+    account: {
+      username: 'admin',
+      password: 1234
+    }
   },
   getters: {
     AllAppointments: (state) => state.allAppointments,
@@ -31,6 +35,7 @@ export default new Vuex.Store({
     AgentsTimes: (state) => state.agentsTimes,
     Error: (state) => state.error,
     UpdatingAdress: (state) => state.updatingAdress,
+    Account: (state) => state.account
   },
   mutations: {
     GET_ALL_APPOINMENTS(state, payload) {

@@ -49,7 +49,7 @@
             {{ agent["fields"].agent_surname }}
           </div>
           <div class="item">
-            {{ agent["fields"].Appointments.length }}
+            {{agent["fields"].Appointments ? agent["fields"].Appointments.length : '0' }}
           </div>
         </div>
       </div>
