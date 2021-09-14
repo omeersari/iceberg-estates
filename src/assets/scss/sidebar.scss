@@ -18,7 +18,7 @@
 
 .sidebar-menu {
   height: 100%;
-  background-color: black;
+  background-color: $secondaryColor;
   justify-self: stretch;
   position: relative;
   @media (max-width: $mobileBreakpointMenu) {
@@ -71,7 +71,7 @@
 
   .responsive-menu {
       display: flex;
-      background-color: black;
+      background-color: $secondaryColor;
       justify-content: flex-start;
       width: 25%;
       height: 100vh;

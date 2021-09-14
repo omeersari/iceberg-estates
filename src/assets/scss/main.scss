@@ -1,3 +1,99 @@
+.main {
+    
+}
+
+//headings
+
+h2 {
+    text-align: center;
+    font-size: 20px;
+    color: $mainColor;
+    letter-spacing: 0.5mm;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+// buttons
+
+button {
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    outline: none;
+    color: white;
+    margin-top: 10px;
+    letter-spacing: 0.5mm;
+    font-weight: bold;
+
+    &.primary {
+        font-size: 16px;
+        background-color: $thirdColor;
+        padding: 15px 36px;
+    }
+
+    &.secondary {
+        padding: 5px 12px;
+        box-sizing: content-box;
+        background-color: $fourthColor;
+    }
+
+    &.tertiary {
+        padding: 7px;
+        background-color: $fifthColor;
+    }
+
+    &:disabled {
+        background-color: grey;
+        cursor: auto;
+    }
+}
+
+// inputs
+
+input {
+    margin-top: 5px;
+    border: 1px solid #d0d7de;
+    border-radius: 5px;
+    line-height: 20px;
+    padding: 5px 12px;
+
+    &.primary {
+        width: calc(100% - 24px);
+    }
+}
+
+select {
+    width: calc(100% - 24px);
+    margin: 5px 0;
+    border: 1px solid #d0d7de;
+    border-radius: 5px;
+    line-height: 20px;
+    padding: 5px 12px;
+    box-sizing: content-box;
+}
+
+// table-headers
+
+.headers {
+    background-color: $fifthColor;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: bold;
+    height: 77px;
+    color: white;
+
+    &.app-table {
+        @media (max-width: $mobileBreakpointMenu) {
+            display: none;
+        }
+    }
+
+}
+
+
+
+
 // appointments page
 
 .page {
@@ -31,7 +127,7 @@
 
     .item {
         padding: 12px;
-
+    
         @media (max-width: $mobileBreakpointMenu) {
             width: 100%;
             display: grid;
@@ -64,79 +160,13 @@
     background-color: lightgrey;
 }
 
-button.view-more {
-    display: flex;
-    justify-content: center;
-    padding: 15px 36px;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 8px;
-    outline: none;
-    margin: 8px auto;
-    font-size: 16px;
-    background-color: #eb0028;
-    color: white;
-}
-
-button.edit {
-    padding: 7px;
-    cursor: pointer;
-    border-radius: 3px;
-    background-color: #7c82cc;
-    color: white;
-}
-
-
-.headers {
-    background-color: #95A5A6;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    font-weight: bold;
-    height: 77px;
-
-    @media (max-width: $mobileBreakpointMenu) {
-        display: none;
-    }
-}
-
 div.sort {
     cursor: pointer;
 }
 
-.appointments {
-    form {
-        input {
-            margin-right: 10px;
-            padding: 7px;
-        }
-        button {
-            padding: 7px;
-            border-radius: 3px;
-            cursor: pointer;
-            background-color: rgb(142, 211, 179);
-            color: black;
-            font-weight: bold;
-        }
-        @media (max-width: $mobileBreakpointMenu) {
-            display: flex;
-            justify-content: center;
-            
-        }
-        
-    }
-}
 
-button.sort-by-date {
+.sort-date {
     display: none;
-    margin-top: 10px;
-    padding: 7px;
-    border-radius: 3px;
-    cursor: pointer;
-    background-color: rgb(142, 211, 179);
-    color: black;
-    font-weight: bold;
-
     @media (max-width: $mobileBreakpointMenu) {
         display: block;
         margin: 15px auto;
@@ -144,10 +174,9 @@ button.sort-by-date {
 }
 
 
-// create-application page
+// create-appointment page
 
 .app-form {
-
     font-family: 'lato', sans-serif;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -156,22 +185,6 @@ button.sort-by-date {
 
     @media (max-width: $mobileBreakpointMenu) {
         grid-template-columns: 1fr;
-    }
-
-    h2 {
-        text-align: center;
-        font-size: 20px;
-        color: #95A5A6;
-    }
-
-    select {
-        width: calc(100% - 24px);
-        margin: 5px 0;
-        border: 1px solid #d0d7de;
-        border-radius: 5px;
-        line-height: 20px;
-        padding: 5px 12px;
-        box-sizing: content-box;
     }
     
 }
@@ -190,33 +203,11 @@ button.sort-by-date {
     }
 }
 
-.user-input {
-    
-    input {
-        width: calc(100% - 24px);
-        margin-top: 5px;
-        border: 1px solid #d0d7de;
-        border-radius: 5px;
-        line-height: 20px;
-        padding: 5px 12px;
-    }
-    button {
-        width: calc(100% - 24px);
-        margin-top: 10px;
-        border-radius: 3px;
-        padding: 5px 12px;
-        box-sizing: content-box;
-        background-color: #eb0028;
-        color: white;
-        letter-spacing: 1mm;
-    }
-}
-
 label {
     display: block;
     margin-top: 10px;
     font-size: 14px;
-    color: black;
+    color: $mainColor;
 }
 
 .map {
@@ -258,9 +249,15 @@ label {
 .minor-link {
     font-size: 10px;
     text-decoration: none;
-    color: rgb(41, 117, 168);
+    color: $mainColor;
 
     i {
         margin-right: 3px;
     }
+}
+
+.error {
+    text-align: center;
+    margin-bottom: 20px;
+    color: red;
 }
