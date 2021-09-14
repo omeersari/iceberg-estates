@@ -45,6 +45,9 @@ export default {
       return this.$store.getters.Error;
     },
   },
+  created () {
+    this.$store.dispatch("showMenu", false);
+  },
   methods: {
     async createAgent() {
       if (this.agent_name && this.agent_surname) {

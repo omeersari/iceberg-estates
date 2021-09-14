@@ -52,6 +52,9 @@ export default {
       },
     };
   },
+  created () {
+    this.$store.dispatch("showMenu", false);
+  },
   computed: {
     error() {
       return this.$store.getters.Error;
