@@ -13,29 +13,27 @@ export const control = {
       );
     const result = agentArray.every((element) => {
       if (element.depTime && element.arrTime) {
-        //yeniler için
+        // For new appointments
         if (moment(appDate).isBetween(element.depTime, element.arrTime)) {
-          console.log("yeni randevu arasında çıktı uygun değil");
+          // new appointment cross
           return false;
         } else {
-          console.log("yeni randevu uygun");
+          // suitable for new appointments
           return true;
         }
-      } else {
+      } // For previous appointments 
+      else {
         const busydate = moment(element.busyTime).toDate();
         const depTime = moment(busydate).subtract(1, "hours").toDate();
         const returnTime = moment(busydate).add(2, "hours").toDate();
         if (moment(appDate).isBetween(depTime, returnTime)) {
-          console.log("eski randevu arasında çıktı");
+          // previous date time is existing
           return false;
         } else {
-          console.log("eski randevuya uygun");
+          // suitable for previous appointments date
           return true;
         }
       }
-      // eski randevular için gidiş geliş süresi 1er saat ve randevu süresi de 1 saat olarak alınacak.
-      // yeni randevular da gidiş ve geliş süresi google maps api kullanılarak hesaplanacaktır. randevu süresi de 1 saat olarak. Ona göre date seçiminden sonra
-      // uyarı verilecektir.
     });
     return result
 },

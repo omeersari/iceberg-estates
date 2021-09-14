@@ -12,6 +12,7 @@
           class="inline-block h-full"
           v-model="dataForm.date"
           mode="dateTime"
+          :masks="masks"
           is24hr
           :minute-increment="5"
           :min-date="new Date()"
@@ -105,6 +106,9 @@ export default {
         contact: "",
         agent: "",
       },
+      masks: {
+      inputDateTime24hr: 'DD-MM-YYYY HH:mm',
+    }
     };
   },
   created () {

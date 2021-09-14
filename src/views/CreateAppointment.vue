@@ -32,7 +32,7 @@
         </p>
         <p>Duration with {{ travelMode }} is: {{ dur }}</p>
       </div>
-      <div v-if="depTime && arrTime">
+      <div v-if="depTime && arrTime && !Error">
         Agent should leave office at {{ depTime }} and will be back at the
         office at {{ arrTime }}
       </div>
@@ -133,7 +133,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["Agents", "Contacts", "AgentsTimes"]),
+    ...mapGetters(["Agents", "Contacts", "AgentsTimes", "Error"]),
   },
 };
 </script>
