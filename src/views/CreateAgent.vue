@@ -19,6 +19,7 @@
     <div v-if="error" class="error">
       {{ error }}
     </div>
+    <notifications group="add" width="400px" position="top right" />
   </div>
 </template>
 
@@ -58,8 +59,22 @@ export default {
           },
         };
         await this.api.createAgent(data);
+        this.$notify({
+          group: "add",
+          title: "Success",
+          text: `${this.agent_name + " " + this.agent_surname} is added as a new agent.`,
+          type: "success",
+          duration: 4000
+        })
         this.resetForm();
       } else {
+        this.$notify({
+          group: "add",
+          title: "Error",
+          text: "An error occured",
+          type: "error",
+          duration: 4000
+        })
         this.$store.dispatch(
           "createError",
           "Please make sure all fields are filled"

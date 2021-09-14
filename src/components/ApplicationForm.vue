@@ -172,6 +172,13 @@ export default {
           this.$emit("appCreated", data, type);
         }
       } else {
+        this.$notify({
+          group: "add",
+          title: "Error",
+          text: "An error occured. Read error message please.",
+          type: "error",
+          duration: 4000
+        })
         this.$store.dispatch(
           "createError",
           "Please make sure all fields are filled"
