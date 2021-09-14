@@ -65,6 +65,8 @@
           :submit="createApplication"
           :buttonText="updatingItem ? 'UPDATE' : 'CREATE'"
           :className="'secondary'"
+          class="create-button"
+          :class="updatingItem ? 'tertiary' : ''"
         />
       </div>
     </form>

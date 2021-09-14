@@ -15,6 +15,7 @@
         @markerSelected="markerSelected"
         :showMarker="showMarker"
         @getDestination="getDestination"
+        :updatingItem="updatingItem"
       />
       <div>
         <input type="checkbox" v-model="showMarker" />
@@ -32,7 +33,7 @@
         </p>
         <p>Duration with {{ travelMode }} is: {{ dur }}</p>
       </div>
-      <div v-if="depTime && arrTime && !Error">
+      <div v-if="depTime && arrTime && !Error" class="error">
         Agent should leave office at {{ depTime }} and will be back at the
         office at {{ arrTime }}
       </div>

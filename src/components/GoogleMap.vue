@@ -2,7 +2,6 @@
   <div>
     <div>
       <h2>Please Select The Place</h2>
-      {{this.$store.getters.UpdatingAdress}}
     </div>
     <GmapMap
       ref="map"
@@ -68,16 +67,19 @@ export default {
       type: Boolean,
       required: false,
     },
+    updatingItem: {
+      type: Object,
+      required: false
+    }
   },
   mounted() {
     this.showOurLocation()
-    if (this.$store.getters.UpdatingAdress) {
+    if (this.$store.getters.UpdatingAdress && this.updatingItem) {
       setTimeout(() => {
         this.newMarker = this.$store.getters.UpdatingAdress
         this.$emit("markerSelected", true);
         this.calculateDistance()
       }, 500)
-      
     }
   },
   beforeDestroy () {
