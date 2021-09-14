@@ -33,12 +33,6 @@ const routes = [
       ),
   },
   {
-    path: "/users",
-    name: "Users",
-    component: () =>
-      import(/* webpackChunkName: "users" */ "../views/Users.vue"),
-  },
-  {
     path: "/createcontact",
     name: "CreateContact",
     component: () =>
