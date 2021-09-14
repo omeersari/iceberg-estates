@@ -152,6 +152,7 @@ export default {
           const type = "create";
           this.$emit("appCreated", data, type);
         } else {
+          this.$store.dispatch("createError", "");
           const data = {
             records: [
               {
@@ -183,5 +184,8 @@ export default {
       };
     },
   },
+  beforeDestroy() {
+    this.$store.dispatch('createError', '')
+  }
 };
 </script>

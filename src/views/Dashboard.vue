@@ -2,12 +2,12 @@
   <div class="page">
     <div class="dashboard">
       <div class="d-table">
-        <h1>Contacts Table</h1>
+        <h2>Contacts</h2>
         <div class="headers size-4">
           <div class="item">ID</div>
           <div class="item">Name</div>
-          <div class="item">Phone</div>
           <div class="item">Email</div>
+          <div class="item">Phone</div>
         </div>
         <div
           class="items size-4"

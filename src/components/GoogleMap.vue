@@ -71,7 +71,6 @@ export default {
   },
   mounted() {
     this.showOurLocation()
-    console.log(this.$store.getters.UpdatingAdress)
     if (this.$store.getters.UpdatingAdress) {
       setTimeout(() => {
         this.newMarker = this.$store.getters.UpdatingAdress

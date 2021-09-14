@@ -7,13 +7,13 @@
     </div>
     <div class="logo">ICEBERG ESTATES</div>
     <div class="menu" :class="ShowMenu ? 'responsive-menu' : ''">
-      <router-link class="menu-link" to="/dashboard">anasayfa</router-link>
-      <router-link class="menu-link" to="/appointments">randevular</router-link>
+      <router-link class="menu-link" to="/dashboard">Dashboard</router-link>
+      <router-link class="menu-link" to="/appointments">Appointments</router-link>
       <router-link class="menu-link" to="/createappointment"
-        >randevu oluştur</router-link
+        >Create Appointment</router-link
       >
-      <router-link class="menu-link" to="/createcontact">CONTACT oluştur</router-link>
-      <router-link class="menu-link" to="/createagent">AGENT oluştur</router-link>
+      <router-link class="menu-link" to="/createcontact">Create Contact</router-link>
+      <router-link class="menu-link" to="/createagent">Create Agent</router-link>
     </div>
   </div>
 </template>

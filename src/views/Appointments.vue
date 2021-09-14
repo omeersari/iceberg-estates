@@ -2,9 +2,11 @@
   <div class="page">
     <form @submit.prevent="filterAgents">
       <input type="text" placeholder="Filter by agent name" v-model="filter" />
-      <button>Filter</button>
+      <submit :buttonText="'Filter'" :submit="filterAgents" :className="'tertiary'"/>
     </form>
-    <button @click="sortDates()" class="sort-by-date">Sort By Date</button>
+    <div class="sort-date">
+      <button @click="sortDates()" class="tertiary">Sort By Date</button>
+    </div>
     <div class="table">
       <div class="app-table headers">
         <div>ID</div>
@@ -80,11 +82,11 @@
         </div>
         <div class="item">
           <div class="responsive-label">Action:</div>
-          <div><button class="edit" :disabled="isPassive(index)" @click="onUpdate(item)">EDIT</button></div>
+          <div><button class="tertiary" :disabled="isPassive(index)" @click="onUpdate(item)">EDIT</button></div>
         </div>
       </div>
     </div>
-    <button class="view-more" @click="viewmore" ref="viewmore">
+    <button class="primary" @click="viewmore" ref="viewmore">
       View More
     </button>
   </div>
@@ -94,8 +96,12 @@
 
 import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
+import Submit from '../components/Submit.vue'
 
 export default {
+  components: {
+    Submit
+  },
   data() {
     return {
       res: [],
