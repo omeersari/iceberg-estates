@@ -1,9 +1,12 @@
 <template>
   <div class="page">
-    <form @submit.prevent="filterAgents">
-      <input type="text" placeholder="Filter by agent name" v-model="filter" />
-      <submit :buttonText="'Filter'" :submit="filterAgents" :className="'tertiary'"/>
+    <div class="top">
+      <form @submit.prevent="filterAgents">
+      <input type="text" placeholder="Filter by agent name" v-model="filter" class="mr-5" />
+      <submit :buttonText="'Filter'" :submit="filterAgents" :className="'tertiary'" class="mr-5"/>
     </form>
+    <submit :buttonText="'Reset'" :submit="resetFilter" :className="'tertiary'"/>
+    </div>
     <div class="sort-date">
       <button @click="sortDates()" class="tertiary">Sort By Date</button>
     </div>
@@ -19,6 +22,7 @@
         <div>Agent Name</div>
         <div>Actions</div>
       </div>
+      <div v-if="Appointments.length == 0" class="error">No records found</div>
       <div v-for="(item, index) in Appointments" :key="index" class="app-table" :class="isPassive(index) ? 'isPassive' : ''">
         <div class="item">
           <div class="responsive-label">ID:</div>
@@ -86,9 +90,12 @@
         </div>
       </div>
     </div>
-    <button class="primary" @click="viewmore" ref="viewmore">
+    <div class="f-center">
+      <button class="primary" @click="viewmore" ref="viewmore">
       View More
     </button>
+    </div>
+    
   </div>
 </template>
 
@@ -97,6 +104,7 @@
 import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
 import Submit from '../components/Submit.vue'
+
 
 export default {
   components: {
@@ -155,6 +163,11 @@ export default {
       }
     },
     async sortDates(par) {
+      if (this.filter) {
+        this.Appointments.sort(function(a,b){
+          return new Date(b["fields"].appointment_date) - new Date(a["fields"].appointment_date)
+        })
+      } else {
       this.sortClicked = true;
       this.$refs["viewmore"].innerText = "View More";
       this.$refs.viewmore.disabled = false;
@@ -178,8 +191,15 @@ export default {
         this.$refs["viewmore"].innerText = "View More";
         this.$refs.viewmore.disabled = false;
       }
+      }
+      
     },
-    async filterAgents() {
+    
+    filterAgents() {
+      this.$store.commit('FILTER_AGENT', this.filter)
+      this.$refs["viewmore"].innerText = "End of Feed";
+      this.$refs.viewmore.disabled = true;
+      /*
       const allName = this.filter.split(" ");
       let name = "";
       let surname = "";
@@ -196,11 +216,18 @@ export default {
       };
       const res = await this.api.filterAgents(data);
       console.log(res);
-    },
+    */},
     async onUpdate(item) {
         await this.getUpdatingAdress(item["fields"].appointment_postcode)
         this.$router.push({name: 'CreateAppointment', params: {item}})       
+    },
+    async resetFilter() {
+      await this.getAppointments()
+      this.$refs["viewmore"].innerText = "View More";
+      this.$refs.viewmore.disabled = false;
+      this.filter = ""
     }
+
   },
 };
 </script>

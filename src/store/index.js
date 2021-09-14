@@ -85,7 +85,6 @@ export default new Vuex.Store({
               }
             )
           }
-          
         })
       }
     },
@@ -110,6 +109,9 @@ export default new Vuex.Store({
     },
     DELETE_OBJ(state, index) {
       state.agentsTimes.splice(index, 1)
+    },
+    FILTER_AGENT(state, payload) {
+      state.appointments = state.allAppointments.filter(el => el['fields'].agent_name[0] + " " + el['fields'].agent_surname[0] == payload)
     }
   },
   actions: {
@@ -161,7 +163,7 @@ export default new Vuex.Store({
     },
     deleteObj({commit}, index) {
       commit("DELETE_OBJ", index)
-    }
+    },
   },
   plugins: [createPersistedState()]
 });
