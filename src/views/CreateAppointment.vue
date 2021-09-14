@@ -110,13 +110,13 @@ export default {
       this.showTravelMode = bool;
     },
     appCreated(data, type) {
-      const newData = data.records[0]
+      const newData = data.records[0];
       // Deleting previous date and time for only updates.
-      if (type == 'update') {
-        const item = this.AgentsTimes.find(el => el.id == newData.id)
+      if (type == "update") {
+        const item = this.AgentsTimes.find((el) => el.id == newData.id);
         if (item) {
-          const index = this.AgentsTimes.indexOf(item)
-          this.$store.dispatch("deleteObj", index)
+          const index = this.AgentsTimes.indexOf(item);
+          this.$store.dispatch("deleteObj", index);
         }
       }
       let appTime = newData["fields"].appointment_date;
@@ -142,7 +142,6 @@ export default {
         if (type == "create") {
           this.api.createAppointment(data);
         } else {
-          console.log(data)
           this.api.updateAppointment(data);
         }
       } else {
