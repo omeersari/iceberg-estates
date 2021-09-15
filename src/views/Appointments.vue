@@ -36,7 +36,10 @@
         <div>Agent Name</div>
         <div>Actions</div>
       </div>
-      <div v-if="Appointments.length == 0" class="error">No records found</div>
+      <Spinner v-if="!Appointments" />
+      <div v-if="Appointments && Appointments.length == 0" class="error">
+        No records found
+      </div>
       <div
         v-for="(item, index) in Appointments"
         :key="index"
@@ -131,10 +134,12 @@
 import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
 import Submit from "../components/Submit.vue";
+import Spinner from "../components/Spinner.vue";
 
 export default {
   components: {
     Submit,
+    Spinner,
   },
   data() {
     return {

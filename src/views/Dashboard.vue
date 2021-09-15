@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <Spinner v-if="!Agents && !Contacts" />
     <div class="dashboard">
       <div class="d-table">
         <h2>Contacts</h2>
@@ -49,7 +50,11 @@
             {{ agent["fields"].agent_surname }}
           </div>
           <div class="item">
-            {{agent["fields"].Appointments ? agent["fields"].Appointments.length : '0' }}
+            {{
+              agent["fields"].Appointments
+                ? agent["fields"].Appointments.length
+                : "0"
+            }}
           </div>
         </div>
       </div>
@@ -59,7 +64,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Spinner from "../components/Spinner.vue";
 export default {
+  components: {
+    Spinner,
+  },
   async created() {
     this.$store.dispatch("showMenu", false);
     await this.getAllAppointments();

@@ -20,9 +20,9 @@ export default new Vuex.Store({
     updatingAdress: null,
     loading: false,
     account: {
-      username: 'admin',
-      password: 1234
-    }
+      username: "admin",
+      password: 1234,
+    },
   },
   getters: {
     AllAppointments: (state) => state.allAppointments,
@@ -35,7 +35,7 @@ export default new Vuex.Store({
     AgentsTimes: (state) => state.agentsTimes,
     Error: (state) => state.error,
     UpdatingAdress: (state) => state.updatingAdress,
-    Account: (state) => state.account
+    Account: (state) => state.account,
   },
   mutations: {
     GET_ALL_APPOINMENTS(state, payload) {
@@ -162,9 +162,6 @@ export default new Vuex.Store({
     },
     createError({ commit }, err) {
       commit("MAKE_ERROR", err);
-    },
-    setLoading({ commit }, newVal) {
-      commit("SET_LOADING", newVal);
     },
     deleteObj({ commit }, index) {
       commit("DELETE_OBJ", index);

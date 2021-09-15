@@ -5,17 +5,26 @@
         <p class="f-center">ICEBERG ESTATES</p>
       </div>
       <div class="login-form">
-        <input class="primary" type="text" placeholder="Username" v-model="form.username" />
-        <input class="primary" type="password" placeholder="Password" v-model.number="form.password"/>
+        <input
+          class="primary"
+          type="text"
+          placeholder="Username"
+          v-model="form.username"
+        />
+        <input
+          class="primary"
+          type="password"
+          placeholder="Password"
+          v-model.number="form.password"
+        />
         <div class="f-center">
           <button class="secondary" @click="gotoHomepage">LOGIN</button>
         </div>
       </div>
       <div class="error mt-20" v-if="this.$store.getters.Error">
-      {{this.$store.getters.Error}}
+        {{ this.$store.getters.Error }}
+      </div>
     </div>
-    </div>
-    
   </div>
 </template>
 
@@ -29,22 +38,27 @@ export default {
       form: {
         username: "",
         password: null,
-      }
-    }
+      },
+    };
   },
   methods: {
     gotoHomepage() {
-      if (this.form.username == this.$store.getters.Account.username && this.form.password == this.$store.getters.Account.password) {
-        this.$store.dispatch('createError', '')
+      if (
+        this.form.username == this.$store.getters.Account.username &&
+        this.form.password == this.$store.getters.Account.password
+      ) {
+        this.$store.dispatch("createError", "");
         this.$router.push("/dashboard");
       } else {
-        this.$store.dispatch('createError', 'Username or password is incorrect.')
+        this.$store.dispatch(
+          "createError",
+          "Username or password is incorrect."
+        );
       }
     },
   },
   created() {
-    this.$store.dispatch('createError', '')
-  }
+    this.$store.dispatch("createError", "");
+  },
 };
 </script>
-

@@ -144,21 +144,21 @@ export default {
         if (type == "create") {
           this.api.createAppointment(data);
           this.$notify({
-          group: "add",
-          title: "Created",
-          text: "New appointment is created.",
-          type: "success",
-          duration: 4000
-        })
+            group: "add",
+            title: "Created",
+            text: "New appointment is created.",
+            type: "success",
+            duration: 4000,
+          });
         } else {
           this.api.updateAppointment(data);
           this.$notify({
-          group: "add",
-          title: "Updated",
-          text: "The appointment is updated.",
-          type: "success",
-          duration: 4000
-        })
+            group: "add",
+            title: "Updated",
+            text: "The appointment is updated.",
+            type: "success",
+            duration: 4000,
+          });
         }
       } else {
         this.$notify({
@@ -166,8 +166,8 @@ export default {
           title: "Error",
           text: "An error occured. Read error message please.",
           type: "error",
-          duration: 4000
-        })
+          duration: 4000,
+        });
         this.$store.dispatch(
           "createError",
           "This agent is not avaliable during this time. Please select another date or time"

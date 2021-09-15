@@ -177,8 +177,8 @@ export default {
           title: "Error",
           text: "An error occured. Read error message please.",
           type: "error",
-          duration: 4000
-        })
+          duration: 4000,
+        });
         this.$store.dispatch(
           "createError",
           "Please make sure all fields are filled"
